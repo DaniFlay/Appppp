@@ -8,7 +8,13 @@
     android:orientation="vertical"
     tools:context=".EditarPerfilActivity"
     android:paddingTop="20dp">
-
+    <ImageView
+        android:id="@+id/iconoColegio"
+        android:layout_width="match_parent"
+        android:layout_height="115dp"
+        android:layout_marginTop="40dp"
+        android:contentDescription="@string/icono"
+        app:srcCompat="@mipmap/ic_launcher" />
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -148,43 +154,7 @@
             android:textSize="12sp"/>
     </RadioGroup>
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="30dp"
-        android:text="@string/contraseña">
 
-    </TextView>
-
-    <EditText
-        android:id="@+id/contraseñaRegistro"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="30dp"
-        android:layout_marginEnd="30dp"
-        android:ems="17"
-        android:inputType="textPassword">
-
-    </EditText>
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="30dp"
-        android:text="@string/contraseña2">
-
-    </TextView>
-
-    <EditText
-        android:id="@+id/contraseña2Registro"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="30dp"
-        android:layout_marginEnd="30dp"
-        android:ems="17"
-        android:inputType="textPassword">
-
-    </EditText>
     <Button
         android:layout_marginTop="30dp"
         android:id="@+id/botonRegistro"

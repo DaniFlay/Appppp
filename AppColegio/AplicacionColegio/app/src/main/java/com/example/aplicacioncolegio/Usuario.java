@@ -51,6 +51,14 @@ public class Usuario implements Serializable, Parcelable {
         }
     };
 
+    public boolean isAusente() {
+        return ausente;
+    }
+
+    public void setAusente(boolean ausente) {
+        this.ausente = ausente;
+    }
+
     public String getNombre() {
         return nombre;
     }

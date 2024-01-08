@@ -30,8 +30,6 @@ public class EditarPerfilActivity extends AppCompatActivity implements View.OnCl
     private EditText nombre;
     private EditText apellidos;
     private EditText correo;
-    private EditText contraseña;
-    private EditText contraseña2;
     Usuario usuario;
     RadioButton puesto;
     RadioButton sexo;
@@ -48,13 +46,9 @@ public class EditarPerfilActivity extends AppCompatActivity implements View.OnCl
         nombre= (EditText) findViewById(R.id.nombreRegistro);
         apellidos= (EditText) findViewById(R.id.apellidosRegistro);
         correo= (EditText) findViewById(R.id.correoRegistro);
-        contraseña= (EditText) findViewById(R.id.contraseñaRegistro);
-        contraseña2= (EditText) findViewById(R.id.contraseña2Registro);
         nombre.setText(usuario.getNombre());
         apellidos.setText(usuario.getApellidos());
         correo.setText(usuario.getCorreo());
-        contraseña.setText(usuario.getPassword());
-        contraseña2.setText(usuario.getPassword());
         if(usuario.getSexo().equals(getString(R.string.hombre))){
             sexo= (RadioButton) findViewById(R.id.radioButtonHombre);
         }
@@ -90,20 +84,11 @@ public class EditarPerfilActivity extends AppCompatActivity implements View.OnCl
         usuario.setApellidos(apellidos.getText().toString());
         usuario.setCorreo(correo.getText().toString());
         usuario.setSexo(sexo.getText().toString());
-        usuario.setPassword(contraseña.getText().toString());
         Intent intent;
         intent= new Intent(EditarPerfilActivity.this, MenuPrincipal.class);
         intent.putExtra(getString(R.string.usuario), (Parcelable) usuario);
 
-        if (!contraseña.getText().toString().equals(contraseña2.getText().toString())){
-            contraseña2.setBackgroundTintList(ColorStateList.valueOf(Color.RED));
-            contraseña.setBackgroundTintList(ColorStateList.valueOf(Color.RED));
-            new MaterialAlertDialogBuilder(EditarPerfilActivity.this)
-                    .setMessage(getString(R.string.contraseñaNoCoincide))
-                    .setPositiveButton(R.string.ok,null)
-                    .show();
-        }
-        else if(nombre.getText().toString().equals("")){
+        if(nombre.getText().toString().equals("")){
             nombre.setBackgroundTintList(ColorStateList.valueOf(Color.RED));
             new MaterialAlertDialogBuilder(EditarPerfilActivity.this)
                     .setMessage(getString(R.string.nombreIncompleto))
@@ -124,6 +109,8 @@ public class EditarPerfilActivity extends AppCompatActivity implements View.OnCl
                     for(DataSnapshot d: snapshot.getChildren()){
                         Usuario dummy=  d.getValue(Usuario.class);
                         if(usuario.getCorreo().equals(dummy.getCorreo())){
+                            usuario.setPassword(dummy.getPassword());
+                            usuario.setAusente(dummy.isAusente());
                             d.getRef().setValue(usuario);
                             break;
                         }
@@ -141,7 +128,6 @@ public class EditarPerfilActivity extends AppCompatActivity implements View.OnCl
 
     @Override
     public void onCheckedChanged(RadioGroup group, int checkedId) {
-        RadioButton rb= findViewById(checkedId);
-        RadioButton rb2= findViewById(checkedId);
+
     }
 }
