@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:ignore="HardcodedText">
+    <group
+        android:id="@+id/nav_unicas">
+        <item
+            android:id="@+id/nav_permisos"
+            android:title="@string/permisos"/>
+        <item
+            android:id="@+id/nav_tareas"
+            android:title="@string/tareasAdministrativas"/>
+        <item
+            android:id="@+id/nav_ausencias"
+            android:title="@string/ausencias"/>
+        <item
+            android:id="@+id/nav_avisos"
+            android:title="@string/avisos"/>
+    </group>
+    <group
+        android:id="@+id/nav_fijas">
+        <item
+            android:id="@+id/nav_reuniones"
+            android:title="@string/reuniones"/>
+        <item
+            android:id="@+id/nav_notificaciones"
+            android:title="@string/notificaciones"/>
+        <item
+            android:id="@+id/nav_horario"
+            android:title="@string/horario">
+
+        </item>
+    </group>
+    <group
+        android:id="@+id/nav_esenciales">
+        <item
+            android:id="@+id/nav_micuenta"
+            android:title="@string/miCuenta"/>
+        <item
+            android:id="@+id/nav_cerrarSesion"
+            android:title="@string/cerrarSesion"/>
+    </group>
+</menu>

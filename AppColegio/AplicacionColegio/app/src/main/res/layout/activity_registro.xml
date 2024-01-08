@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/janna"
+    android:orientation="vertical"
+    tools:context=".RegistroActivity"
+    android:paddingTop="20dp">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="30dp"
+        android:text="@string/nombre">
+
+    </TextView>
+
+    <EditText
+        android:id="@+id/nombreRegistro"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="30dp"
+        android:layout_marginEnd="30dp"
+        android:ems="17">
+
+    </EditText>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="30dp"
+        android:text="@string/apellidos">
+
+    </TextView>
+
+    <EditText
+        android:id="@+id/apellidosRegistro"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="30dp"
+        android:layout_marginEnd="30dp"
+        android:ems="17">
+
+    </EditText>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="30dp"
+        android:text="@string/correo">
+
+    </TextView>
+
+    <EditText
+        android:id="@+id/correoRegistro"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="30dp"
+        android:layout_marginEnd="30dp"
+        android:ems="17">
+
+    </EditText>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="30dp"
+        android:text="@string/puesto"
+        android:layout_marginBottom="5dp"
+        android:layout_marginTop="5dp">
+
+    </TextView>
+
+    <RadioGroup
+        android:id="@+id/radioGroupPuestos"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="start"
+        android:layout_marginStart="30dp"
+        android:layout_marginEnd="30dp"
+        android:orientation="horizontal"
+        >
+
+        <RadioButton
+            android:id="@+id/radioButtonJefe"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:background="@null"
+            android:button="@drawable/costumerb"
+            android:padding="5dp"
+            android:text="@string/jefe"
+            android:textAlignment="center"
+            android:textSize="12sp" />
+
+        <RadioButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/radioButtonCoordinador"
+        android:layout_gravity="center"
+        android:checked="false"
+        android:button="@drawable/costumerb"
+        android:padding="5dp"
+        android:text="@string/coordinador"
+        android:textAlignment="center"
+        android:textSize="12sp"/>
+    <RadioButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/radioButtonDocente"
+        android:layout_gravity="center"
+        android:checked="false"
+        android:button="@drawable/costumerb"
+        android:padding="5dp"
+        android:text="@string/docente"
+        android:textAlignment="center"
+        android:textSize="12sp"/>
+    </RadioGroup>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
+        android:text="@string/sexo">
+
+    </TextView>
+    <RadioGroup
+        android:id="@+id/radioGroupSexo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="start"
+        android:layout_marginStart="30dp"
+        android:layout_marginEnd="30dp"
+        android:orientation="horizontal"
+        >
+
+        <RadioButton
+            android:button="@drawable/costumerb"
+            android:padding="5dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/radioButtonHombre"
+            android:layout_gravity="center"
+            android:checked="false"
+            android:text="@string/hombre"
+            android:textAlignment="center"
+            android:textSize="12sp"/>
+        <RadioButton
+            android:button="@drawable/costumerb"
+            android:padding="5dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/radioButtonMujer"
+            android:layout_gravity="center"
+            android:checked="false"
+            android:text="@string/mujer"
+            android:textAlignment="center"
+            android:textSize="12sp"/>
+    </RadioGroup>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="5dp"
+        android:text="@string/contraseña">
+
+    </TextView>
+
+    <EditText
+        android:id="@+id/contraseñaRegistro"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="30dp"
+        android:layout_marginEnd="30dp"
+        android:ems="17"
+        android:inputType="textPassword">
+
+    </EditText>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="30dp"
+        android:text="@string/contraseña2">
+
+    </TextView>
+
+    <EditText
+        android:id="@+id/contraseña2Registro"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="30dp"
+        android:layout_marginEnd="30dp"
+        android:ems="17"
+        android:inputType="textPassword">
+
+    </EditText>
+    <Button
+        android:id="@+id/botonRegistro"
+        android:textColor="@color/white"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/registro"
+        android:layout_gravity="center"
+        android:layout_marginTop="30dp"
+        android:backgroundTint="@color/boton"/>
+</LinearLayout>

@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/janna"
+    android:orientation="vertical"
+    tools:context=".ConvocarReunion">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="30dp"
+        android:text="@string/participante">
+
+    </TextView>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginEnd="30dp">
+
+        <EditText
+            android:id="@+id/participantes"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:ems="10"
+            android:inputType="textMultiLine"
+            android:scrollbars="vertical">
+
+        </EditText>
+
+        <ImageButton
+            android:id="@+id/botonAñadir"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:layout_marginStart="5dp"
+            android:layout_marginEnd="5dp"
+            android:backgroundTint="@color/imageButton"
+            android:src="@android:drawable/ic_menu_add">
+
+        </ImageButton>
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="30dp"
+        android:text="@string/fecha">
+
+    </TextView>
+
+    <LinearLayout
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <EditText
+            android:id="@+id/fecha"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:ems="5">
+
+        </EditText>
+
+        <ImageButton
+            android:id="@+id/botonFecha"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:layout_marginStart="5dp"
+            android:backgroundTint="@color/imageButton"
+            android:src="@android:drawable/ic_menu_my_calendar">
+
+        </ImageButton>
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        android:text="@string/horaI">
+
+    </TextView>
+
+    <LinearLayout
+        android:layout_width="200dp"
+        android:layout_height="60dp"
+        android:orientation="horizontal">
+
+        <EditText
+            android:id="@+id/horaInicio"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:ems="5">
+
+        </EditText>
+
+        <ImageButton
+            android:id="@+id/botonHoraI"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:layout_marginStart="5dp"
+            android:backgroundTint="@color/imageButton"
+            android:src="@android:drawable/ic_lock_idle_alarm">
+
+        </ImageButton>
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="30dp"
+        android:text="@string/observaciones">
+
+    </TextView>
+
+    <EditText
+        android:id="@+id/observaciones"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:ems="17"
+        android:inputType="textMultiLine"
+        android:lines="4"
+        android:scrollbars="vertical">
+
+    </EditText>
+
+    <Button
+        android:id="@+id/boton_enviar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="20dp"
+        android:backgroundTint="@color/boton"
+        android:text="@string/enviar">
+
+    </Button>
+
+</LinearLayout>

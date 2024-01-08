@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".InformeGuardia"
+    android:orientation="vertical"
+    android:background="@color/janna">
+    <ImageView
+        android:id="@+id/iconoColegio"
+        android:layout_width="match_parent"
+        android:layout_height="135dp"
+        android:layout_marginTop="40dp"
+        android:contentDescription="@string/icono"
+        app:srcCompat="@mipmap/ic_launcher" />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/nombre"
+        android:layout_marginTop="30dp"
+        android:layout_marginStart="20dp">
+
+    </TextView>
+    <EditText
+        android:id="@+id/nombre"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="17"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp">
+
+    </EditText>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/apellidos"
+        android:layout_marginTop="30dp"
+        android:layout_marginStart="20dp">
+
+    </TextView>
+    <EditText
+        android:id="@+id/apellidos"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="17"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp">
+
+    </EditText>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/fecha"
+        android:layout_marginTop="30dp"
+        android:layout_marginStart="20dp">
+
+    </TextView>
+    <LinearLayout
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <EditText
+            android:id="@+id/fecha"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:ems="5">
+        </EditText>
+        <ImageButton
+            android:id="@+id/botonFecha"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:src="@android:drawable/ic_menu_my_calendar"
+            android:layout_marginStart="5dp"
+            android:backgroundTint="@color/imageButton">
+        </ImageButton>
+    </LinearLayout>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/observaciones"
+        android:layout_marginTop="30dp"
+        android:layout_marginStart="20dp">
+
+    </TextView>
+    <EditText
+        android:id="@+id/observaciones"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="17"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:scrollbars="vertical"
+        android:lines="4"
+        android:inputType="textMultiLine">
+    </EditText>
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="20dp"
+        android:id="@+id/boton_guardar"
+        android:backgroundTint="@color/boton"
+        android:textColor="@color/white"
+        android:text="@string/guardar">
+
+    </Button>
+</LinearLayout>

@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "299451043133",
+    "firebase_url": "https://aplicacioncolegio-4c175-default-rtdb.firebaseio.com",
+    "project_id": "aplicacioncolegio-4c175",
+    "storage_bucket": "aplicacioncolegio-4c175.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:299451043133:android:c16c90b2129b570f9e4954",
+        "android_client_info": {
+          "package_name": "com.example.aplicacioncolegio"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCGRdocAjjXezLprO0Jc4Sj8VO-Uk22lG4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

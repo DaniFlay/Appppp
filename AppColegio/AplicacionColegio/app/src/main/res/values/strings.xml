@@ -1,0 +1,170 @@
+<resources>
+    <string name="app_name">AplicacionColegio</string>
+    <string name="mensajeBienvenida">Bienvenido!</string>
+    <string name="cerrarSesion">Cerrar Sesion</string>
+    <string name="contraseña">Contraseña</string>
+    <string name="contraseña2">Repite contraseña</string>
+    <string name="contraseñaHint">Introduce tu contraseña</string>
+    <string name="contraseñaOlvidada">Se me ha olvidado la contraseña</string>
+    <string name="icono">Icono de inicio</string>
+    <string name="inicio">Iniciar Sesion</string>
+    <string name="miCuenta">Editar cuenta</string>
+    <string name="nombre">Nombre</string>
+    <string name="puesto">Puesto</string>
+    <string name="registro">Registrarse</string>
+    <string name="usuario">Usuario</string>
+    <string name="usuarioHint">Introduce tu nombre de usuario</string>
+    <string name="menu_deslizante">Menu deslizante</string>
+    <string name="abrir_menu_deslizante">Abrir</string>
+    <string name="cerrar_menu_deslizante">Cerrar</string>
+    <string name="permisos">Permisos</string>
+    <string name="tareasAdministrativas">Tareas Administrativas</string>
+    <string name="ausencias">Ausencias</string>
+    <string name="calendario">Calendario</string>
+    <string name="avisos">Avisos</string>
+    <string name="mensaje">Enviar Mensaje</string>
+    <string name="tareas">Fijar Tareas</string>
+    <string name="guardias">Guardias</string>
+    <string name="apellidos">Apellidos</string>
+    <string name="correo">Correo electronico</string>
+    <string name="jefe">Jefe de Estudios</string>
+    <string name="coordinador">Coordinador</string>
+    <string name="docente">Docente</string>
+    <string name="hombre">Hombre</string>
+    <string name="mujer">Mujer</string>
+    <string name="sexo">Sexo</string>
+    <string name="guardar">Guardar</string>
+    <string name="permisosExplicacion">Esta es la página de permisos, desde aquí puede hacer gestión de sus permisos</string>
+    <string name="permisosSolicitud">Solicitar</string>
+    <string name="permisosEstado">Consulta de estados</string>
+    <string name="permisosPendientes">Pendientes</string>
+    <string-array name="puestos">
+        <item>Jefe de Estudios</item>
+        <item>Coordinador de Ciclo</item>
+        <item>Docente</item>
+    </string-array>
+    <string name="title_activity_permisos">PermisosActivity</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Android Studio</string>
+    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
+    <string name="ok">OK</string>
+    <string name="menu_home">Home</string>
+    <string name="menu_gallery">Gallery</string>
+    <string name="menu_slideshow">Slideshow</string>
+    <string name="title_activity_estados_permisos">EstadosPermisosActivity</string>
+    <string name="tab_text_1">Tab 1</string>
+    <string name="tab_text_2">Tab 2</string>
+    <string name="menu_principal">Menú Principal</string>
+    <string name="lista_permisos">Lista de Permisos</string>
+    <string name="contraseñaNoCoincide">"Los campos contraseña y repite contraseña no coinciden"</string>
+    <string name="permiso_razpn">Razon</string>
+    <string name="tipo_permiso">Tipo de Permiso</string>
+    <string-array name="permisos_razones">
+        <item>Familia</item>
+        <item>Nacimiento, adopción o acogimiento</item>
+        <item>Asuntos personales</item>
+        <item>Salud propia</item>
+        <item>Formación</item>
+        <item>Deberes civiles</item>
+    </string-array>
+    <string-array name="permisos_familia">
+        <item>Permiso por matrimonio de un familiar</item>
+        <item>Permiso parental por hijo menor de 8 años</item>
+        <item>Permiso por fallecimiento de un familiar</item>
+        <item>Permiso por cuidado de hijo menor de 16 años</item>
+        <item>Reducción de jornada por guarda legal</item>
+    </string-array>
+    <string-array name="permisos_naa">
+        <item>Permiso por nacimiento para la madre biológica</item>
+        <item>Permiso por lactancia</item>
+    </string-array>
+    <string-array name="permisos_asuntos_personales">
+        <item>Permiso por días de libre disposición</item>
+        <item>Permiso por traslado de domicilio</item>
+        <item>Permiso parcialmente retribuido</item>
+        <item>Licencia por asuntos propios</item>
+        <item>Licencia por matrimonio</item>
+        <item>Reducción de jornada por interés particular</item>
+    </string-array>
+    <string-array name="permisos_salud_propia">
+        <item>Permiso por enfermedad o accidente</item>
+    </string-array>
+    <string-array name="permisos_formacion">
+        <item>Permiso por concurrencia a exámenes</item>
+        <item>Licencia para asistir a actividades de formación</item>
+        <item>Licencia por curso completo sin retribución</item>
+    </string-array>
+    <string-array name="permisos_deberes_civiles">
+        <item>Permiso por deber inexcusable</item>
+        <item>Permiso por elecciones europeas, generales, autonómicas y locales</item>
+    </string-array>
+    <string name="rellenarPermiso">Debes completar el permiso</string>
+    <string name="completado">Completar</string>
+    <string name="verCompletarTareas">Ver/Completar tareas</string>
+    <string name="atras">Atras</string>
+    <string name="mistareas">Mis Tareas</string>
+    <string name="menutareas">Menú Tareas</string>
+    <string name="mispaermisos">Mis permisos</string>
+    <string name="fechaI">Fecha de Inicio</string>
+    <string name="fechaF">Fecha Fin</string>
+    <string name="horaI">Hora Inicio</string>
+    <string name="horaF">Hora Fin</string>
+    <string name="enviar">Enviar</string>
+    <string-array name="ausencias">
+        <item>Baja</item>
+        <item>Cita médica</item>
+        <item>Enfermedad</item>
+    </string-array>
+    <string name="notificacion">Notificacion</string>
+    <string name="perez">Perez</string>
+    <string name="reuniones">Reuniones</string>
+    <string name="misnotificaciones">Mis notificaciones</string>
+    <string name="notificaciones">Notificaciones</string>
+    <string name="lunes">Lunes</string>
+    <string name="martes">Martes</string>
+    <string name="miercoles">Miercoles</string>
+    <string name="jueves">Jueves</string>
+    <string name="viernes">Viernes</string>
+    <string name="guardia">Guardia</string>
+    <string name="horario">Horario</string>
+    <string name="invitacionReunion">Se le ha convocado a una reunión</string>
+    <string name="fecha">Fecha: </string>
+    <string name="aceotaorechaza">Aceptar o rechazar la convocatoria?</string>
+    <string name="aceptar">Aceptar</string>
+    <string name="rechazar">Rechazar</string>
+    <string name="aceptado">Ha aceptado la convocatoria</string>
+    <string name="rechazado">Ha rechazado la convocatoria</string>
+    <string name="convocar">Convocar</string>
+    <string name="convocatoria">Convocatoria</string>
+    <string name="observaciones">Observaciones: </string>
+    <string name="guardado">Se ha guardado con éxito</string>
+    <string name="participante">Participante/s</string>
+    <string name="convocarreuncion">Nueva Reunión</string>
+    <string name="cancelar">Cancelar</string>
+    <string name="eligeAlosParticipantes">Elige a los participantes</string>
+    <string name="sehaenviadoconexito">Se ha enviado con éxito</string>
+    <string name="mensajeTexto">Mensaje</string>
+    <string name="asunto">Asunto</string>
+    <string name="Mensaje">Mensaje nuevo</string>
+    <string name="tarea">Tarea</string>
+    <string name="fijarTarea">Fijar Tarea</string>
+    <string name="avisoNuevo">Aviso nuevo</string>
+    <string name="nombreIncompleto">El campo nombre no está completo</string>
+    <string name="apellidoIncompleto">El campo apellidos no está completo</string>
+    <string name="tusPermisos">Tus permisos</string>
+    <string name="permiso">permiso</string>
+    <string name="sexoIncompleto">El campo sexo no está completo</string>
+    <string name="puestoIncompleto">El campo puesto no está completo</string>
+    <string name="contraseñaIncompleta">El campo contraseña no está completo</string>
+    <string name="contraseñaIncompleta2">El campo repite contraseña no está completo</string>
+    <string name="ausencia">Ausencia</string>
+    <string name="comprobar">Comprobar</string>
+    <string name="nuevaContraseña">Contraseña nueva</string>
+    <string name="nuevaContraseña2">Repite nueva contraseña</string>
+    <string name="cambiar">Cambiar</string>
+    <string name="usuarioNoExiste">El usuario no existe</string>
+    <string name="contraseñaCambiada">Contraseña cambiada con exito</string>
+</resources>
