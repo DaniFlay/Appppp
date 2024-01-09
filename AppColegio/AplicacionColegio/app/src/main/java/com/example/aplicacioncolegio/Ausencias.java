@@ -17,6 +17,8 @@ import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.TimePicker;
 
+import com.example.aplicacioncolegio.clases.Ausencia;
+import com.example.aplicacioncolegio.clases.Usuario;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;

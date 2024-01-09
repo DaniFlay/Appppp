@@ -97,15 +97,16 @@
             android:text="@string/jefe"
             android:textAlignment="center"
             android:textSize="12sp"/>
+
         <RadioButton
+            android:id="@+id/radioButtonCoordinador"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/radioButtonCoordinador"
             android:layout_gravity="center"
             android:checked="false"
             android:text="@string/coordinador"
             android:textAlignment="center"
-            android:textSize="12sp"/>
+            android:textSize="12sp" />
         <RadioButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

@@ -8,12 +8,10 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Parcelable;
-import android.util.Log;
 import android.view.MenuItem;
 
+import com.example.aplicacioncolegio.clases.Usuario;
 import com.google.android.material.navigation.NavigationView;
-
-import java.util.Arrays;
 
 public class MenuPrincipal extends AppCompatActivity {
 
@@ -178,7 +176,7 @@ public class MenuPrincipal extends AppCompatActivity {
                         }
                      else if (item.getItemId()==R.id.nav_ausencias) {
                         intent = new Intent(MenuPrincipal.this,Ausencias.class);
-                            intent.putExtra(getString(R.string.usuario), (Parcelable) usuario);
+                        intent.putExtra(getString(R.string.usuario), (Parcelable) usuario);
                         startActivity(intent);
                     }
                         else if(item.getItemId()==R.id.nav_notificaciones){

@@ -14,6 +14,7 @@ import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
+import com.example.aplicacioncolegio.clases.Usuario;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -80,13 +81,24 @@ public class EditarPerfilActivity extends AppCompatActivity implements View.OnCl
     @Override
     public void onClick(View v) {
         usuario.setNombre(nombre.getText().toString());
-        usuario.setPuesto(puesto.getText().toString());
         usuario.setApellidos(apellidos.getText().toString());
         usuario.setCorreo(correo.getText().toString());
-        usuario.setSexo(sexo.getText().toString());
-        Intent intent;
-        intent= new Intent(EditarPerfilActivity.this, MenuPrincipal.class);
-        intent.putExtra(getString(R.string.usuario), (Parcelable) usuario);
+        if(rd2.getCheckedRadioButtonId()==R.id.radioButtonHombre){
+            usuario.setSexo(getString(R.string.hombre));
+        }
+        else{
+            usuario.setSexo(getString(R.string.mujer));
+        }
+        if(rd.getCheckedRadioButtonId()==R.id.radioButtonCoordinador){
+            usuario.setPuesto(getString(R.string.coordinador));
+        }
+        else if(rd.getCheckedRadioButtonId()==R.id.radioButtonJefe){
+            usuario.setPuesto(getString(R.string.jefe));
+        }
+        else{
+            usuario.setPuesto(getString(R.string.docente));
+        }
+
 
         if(nombre.getText().toString().equals("")){
             nombre.setBackgroundTintList(ColorStateList.valueOf(Color.RED));
@@ -122,6 +134,9 @@ public class EditarPerfilActivity extends AppCompatActivity implements View.OnCl
 
                 }
             });
+            Intent intent;
+            intent= new Intent(EditarPerfilActivity.this, MenuPrincipal.class);
+            intent.putExtra(getString(R.string.usuario), (Parcelable) usuario);
             startActivity(intent);
         }
     }

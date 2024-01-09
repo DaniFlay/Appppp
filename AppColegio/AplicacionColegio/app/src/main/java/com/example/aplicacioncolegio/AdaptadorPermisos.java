@@ -7,8 +7,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-import com.example.aplicacioncolegio.Permiso;
-import com.example.aplicacioncolegio.R;
+import com.example.aplicacioncolegio.clases.Permiso;
 
 import java.util.List;
 

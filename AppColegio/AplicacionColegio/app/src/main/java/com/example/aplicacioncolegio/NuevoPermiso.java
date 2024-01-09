@@ -10,6 +10,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
 
+import com.example.aplicacioncolegio.clases.Permiso;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 public class NuevoPermiso extends AppCompatActivity implements  View.OnClickListener {

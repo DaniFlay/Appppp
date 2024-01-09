@@ -2,21 +2,16 @@ package com.example.aplicacioncolegio;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 
-import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+import com.example.aplicacioncolegio.clases.Tarea;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-import java.sql.Date;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 public class TareasAdministrativas extends AppCompatActivity implements AdapterView.OnItemClickListener {

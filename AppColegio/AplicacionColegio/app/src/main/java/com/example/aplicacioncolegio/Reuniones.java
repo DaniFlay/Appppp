@@ -7,7 +7,8 @@ import android.os.Bundle;
 import android.os.Parcelable;
 import android.view.View;
 import android.widget.Button;
-import android.widget.RadioButton;
+
+import com.example.aplicacioncolegio.clases.Usuario;
 
 public class Reuniones extends AppCompatActivity implements View.OnClickListener {
     Button botonCal, botonNot, botonCon;

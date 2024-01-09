@@ -1,4 +1,4 @@
-package com.example.aplicacioncolegio;
+package com.example.aplicacioncolegio.clases;
 
 import java.io.Serializable;
 

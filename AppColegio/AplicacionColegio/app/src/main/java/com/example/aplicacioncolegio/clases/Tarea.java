@@ -1,13 +1,11 @@
-package com.example.aplicacioncolegio;
+package com.example.aplicacioncolegio.clases;
 
-import android.bluetooth.BluetoothProfile;
 import android.os.Parcel;
 import android.os.Parcelable;
 
 import androidx.annotation.NonNull;
 
 import java.io.Serializable;
-import java.util.Date;
 
 public class Tarea implements Serializable, Parcelable {
     private String tipo;

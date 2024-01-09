@@ -1,4 +1,4 @@
-package com.example.aplicacioncolegio;
+package com.example.aplicacioncolegio.clases;
 
 
 import android.os.Parcel;
@@ -8,8 +8,6 @@ import androidx.annotation.NonNull;
 
 import java.io.Serializable;
 import java.util.HashSet;
-
-import kotlin.jvm.internal.PackageReference;
 
 public class Reunion implements Serializable, Parcelable {
     private HashSet<Usuario> usuarios;

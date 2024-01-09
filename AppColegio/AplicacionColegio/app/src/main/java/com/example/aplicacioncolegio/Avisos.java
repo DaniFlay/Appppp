@@ -1,20 +1,30 @@
 package com.example.aplicacioncolegio;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 
+import com.example.aplicacioncolegio.clases.Usuario;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 public class Avisos extends AppCompatActivity implements View.OnClickListener{
@@ -22,15 +32,14 @@ public class Avisos extends AppCompatActivity implements View.OnClickListener{
     Button enviar;
     EditText part, mensaje;
     Set<String> profesorado= new HashSet<String>();
-    boolean[] checked= {false,false,false,false,false};
-    int[] botones;
-    String[] texto;
+    Usuario usuario;
+    List<Usuario> usuarios;
+    DatabaseReference ref;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_avisos);
-        texto= getIntent().getStringArrayExtra("texto");
-        botones= getIntent().getIntArrayExtra("botones");
+        usuario= getIntent().getParcelableExtra(getString(R.string.usuario));
         añadir= findViewById(R.id.botonAñadir);
         enviar= findViewById(R.id.boton_enviar);
         part= findViewById(R.id.participantes);
@@ -44,9 +53,30 @@ public class Avisos extends AppCompatActivity implements View.OnClickListener{
     @Override
     public void onClick(View v) {
         if(v.getId()==R.id.botonAñadir){
+            ref= FirebaseDatabase.getInstance().getReference().child(getString(R.string.usuario));
+            ref.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    for (DataSnapshot d: snapshot.getChildren()){
+                        Usuario dummy= d.getValue(Usuario.class);
+                        Log.d("LAAAAAAAAAAAAAAAAA",dummy.toString());
+                        usuarios.add(dummy);
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+
+                }
+            });
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setTitle(getString(R.string.eligeAlosParticipantes));
-            String[] participantes = {"Jose Antonio Perez", "Miguel Rojo", "Jose Maria Tejero", "Manuel Jose Gonzalez", "Leonardo Bosques"};
+            boolean[] checked= new boolean[usuarios.size()];
+            String[] participantes= new String[usuarios.size()];
+            for(int i=0; i<participantes.length;i++){
+                String dummy = usuarios.get(i).getNombre() +" "+usuarios.get(i).getApellidos();
+                participantes[i]=dummy;
+            }
             builder.setMultiChoiceItems(participantes, checked, new DialogInterface.OnMultiChoiceClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which, boolean isChecked) {
@@ -78,8 +108,7 @@ public class Avisos extends AppCompatActivity implements View.OnClickListener{
                             part.setText("");
                             mensaje.setText("");
                             Intent intent= new Intent (Avisos.this, MenuPrincipal.class);
-                            intent.putExtra("botones", botones);
-                            intent.putExtra("texto",texto);
+                            intent.putExtra(getString(R.string.usuario), (Parcelable) usuario);
                             startActivity(intent);
                         }
                     }).show();
