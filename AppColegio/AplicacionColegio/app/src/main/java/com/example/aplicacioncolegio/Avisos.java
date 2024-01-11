@@ -48,18 +48,19 @@ public class Avisos extends AppCompatActivity implements View.OnClickListener{
         enviar.setOnClickListener(this);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle(R.string.avisoNuevo);
+        ref= FirebaseDatabase.getInstance().getReference(getString(R.string.usuario));
     }
 
     @Override
     public void onClick(View v) {
         if(v.getId()==R.id.botonAñadir){
-            ref= FirebaseDatabase.getInstance().getReference().child(getString(R.string.usuario));
             ref.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    Log.d("PPPPPPPP",String.valueOf(snapshot.getChildrenCount()));
                     for (DataSnapshot d: snapshot.getChildren()){
                         Usuario dummy= d.getValue(Usuario.class);
-                        Log.d("LAAAAAAAAAAAAAAAAA",dummy.toString());
+                        Log.d("LAAAAAAAAAAAAAAAAA","LAAAAAAAAAAAAAAAAA");
                         usuarios.add(dummy);
                     }
                 }
