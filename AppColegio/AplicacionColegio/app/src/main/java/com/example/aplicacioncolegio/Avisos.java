@@ -33,7 +33,8 @@ public class Avisos extends AppCompatActivity implements View.OnClickListener{
     EditText part, mensaje;
     Set<String> profesorado= new HashSet<String>();
     Usuario usuario;
-    List<Usuario> usuarios;
+    ArrayList<Usuario> usuarios;
+    HashSet<Usuario> usuariosAvisos;
     DatabaseReference ref;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,30 +47,40 @@ public class Avisos extends AppCompatActivity implements View.OnClickListener{
         mensaje= findViewById(R.id.mensaje);
         añadir.setOnClickListener(this);
         enviar.setOnClickListener(this);
+        usuarios = new ArrayList<>();
+        usuariosAvisos= new HashSet<>();
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle(R.string.avisoNuevo);
         ref= FirebaseDatabase.getInstance().getReference(getString(R.string.usuario));
+        ref.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                Log.d("PPPPPPPP",String.valueOf(snapshot.getChildrenCount()));
+                for (DataSnapshot d: snapshot.getChildren()){
+                    Usuario dummy= d.getValue(Usuario.class);
+                    Log.d("LAAAAAAAAAAAAAAAAA",dummy.getNombre()+"");
+                    usuarios.add(dummy);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
     }
 
     @Override
     public void onClick(View v) {
         if(v.getId()==R.id.botonAñadir){
-            ref.addValueEventListener(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot snapshot) {
-                    Log.d("PPPPPPPP",String.valueOf(snapshot.getChildrenCount()));
-                    for (DataSnapshot d: snapshot.getChildren()){
-                        Usuario dummy= d.getValue(Usuario.class);
-                        Log.d("LAAAAAAAAAAAAAAAAA","LAAAAAAAAAAAAAAAAA");
-                        usuarios.add(dummy);
-                    }
-                }
+            Log.d("PPPPPPPP","pRUEBAS");
+            Log.d("PPPPPPPP",ref.getKey()+"");
 
-                @Override
-                public void onCancelled(@NonNull DatabaseError error) {
+            Log.d("poqwoipfiasof",usuarios.toString()+"");
+            for(Usuario u: usuarios){
+                Log.d("qqqqqqqqqqqq",u.getNombre()+"");
+            }
 
-                }
-            });
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setTitle(getString(R.string.eligeAlosParticipantes));
             boolean[] checked= new boolean[usuarios.size()];
