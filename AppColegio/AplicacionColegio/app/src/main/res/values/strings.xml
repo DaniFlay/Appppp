@@ -167,4 +167,89 @@
     <string name="cambiar">Cambiar</string>
     <string name="usuarioNoExiste">El usuario no existe</string>
     <string name="contraseñaCambiada">Contraseña cambiada con exito</string>
+    <string name="dam">Desarrollo de Aplicaciones Multiplataforma</string>
+    <string name="ei">Educacion Infantil</string>
+    <string name="dientes">Protesis Dentales</string>
+    <string name="integ">Integracion Social</string>
+    <string name="med">Mediacion Comunicativa</string>
+    <string-array name="mediacion1">
+        <item>Metodologia de la integracion social</item>
+        <item>Sensibilizacion social y participacion</item>
+        <item>Intervencion socioeducativa</item>
+        <item>Contexto de la mediacion comunicativa</item>
+        <item>Lengua de signos</item>
+        <item>Intervencion con personas con dificultad de comunicacion</item>
+        <item>FOL</item>
+    </string-array>
+    <string-array name="mediacion2">
+        <item>Ambitos de aplicacion de la lengua de signos</item>
+        <item>Tecnicas de intervencion comunicativa</item>
+        <item>Sistemas aumentativos y alternativas de comunicacion</item>
+        <item>Primeros auxilios</item>
+        <item>Habilidades sociales</item>
+        <item>Empresa</item>
+    </string-array>
+    <string-array name="infantil1">
+        <item>Didactica de la EI</item>
+        <item>Autonomia personal y salud infantil</item>
+        <item>Expresion y comunicacion</item>
+        <item>Desarrollo cognitivo y motor</item>
+        <item>Desarrollo socio-afectivo</item>
+        <item>FOL</item>
+    </string-array>
+    <string-array name="infantil2">
+        <item>El juego infantil</item>
+        <item>Habilidades sociales</item>
+        <item>Intervencion con familias</item>
+        <item>Primeros auxilios</item>
+        <item>Empresa</item>
+    </string-array>
+    <string-array name="dam1">
+        <item>Programacion</item>
+        <item>Bases de datos</item>
+        <item>Sistemas informaticos</item>
+        <item>Lenguajes de marcas</item>
+        <item>FOL</item>
+        <item>Entornos de desarrollo</item>
+    </string-array>
+    <string-array name="dam2">
+        <item>Acceso a datos</item>
+        <item>Desarrollo de interfaces</item>
+        <item>Programacion multimedia</item>
+        <item>Sistemas de gestion empresarial</item>
+        <item>Programacion de servicios y procesos</item>
+        <item>Empresa</item>
+    </string-array>
+    <string-array name="dientes1">
+        <item>Laboratorio de PD</item>
+        <item>Diseño funcional de protesis</item>
+        <item>Protesis completas</item>
+        <item>Aparatos de ortodoncia</item>
+        <item>Protesis parciales</item>
+        <item>FOL</item>
+    </string-array>
+    <string-array name="dientes2">
+        <item>Restauraciones y estructuras metalicas</item>
+        <item>Restauraciones y recubrimientos esteticos</item>
+        <item>Protesis sobre implantes</item>
+        <item>Empresa</item>
+    </string-array>
+    <string-array name="inter1">
+        <item>Contexto de intervencion social</item>
+        <item>Insercion sociolaboral</item>
+        <item>Atencion a unid. de la convivencia</item>
+        <item>Promocion de la autonomia personal</item>
+        <item>Metodologia de la intervencion social</item>
+        <item>FOL</item>
+    </string-array>
+    <string-array name="inter2">
+        <item>Mediacion comunicativa</item>
+        <item>Apoyo a la intervencion educativa</item>
+        <item>Sistemas aumentativos y alternativos de comunicacion</item>
+        <item>Primeros auxilios</item>
+        <item>Habilidades sociales</item>
+        <item>Empresa</item>
+    </string-array>
+    <string name="modulos">Modulos</string>
+    <string name="ciclos">Ciclos</string>
 </resources>

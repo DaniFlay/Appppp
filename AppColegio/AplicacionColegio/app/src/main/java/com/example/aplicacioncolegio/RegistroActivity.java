@@ -1,5 +1,6 @@
 package com.example.aplicacioncolegio;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -13,10 +14,17 @@ import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
+import com.example.aplicacioncolegio.clases.Ciclo;
+import com.example.aplicacioncolegio.clases.Modulo;
 import com.example.aplicacioncolegio.clases.Usuario;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
 
 public class RegistroActivity extends AppCompatActivity implements View.OnClickListener {
     private RadioGroup rd;
@@ -29,7 +37,30 @@ public class RegistroActivity extends AppCompatActivity implements View.OnClickL
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registro);
+        ref= FirebaseDatabase.getInstance().getReference(getString(R.string.modulos));
+        ref.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(snapshot.getChildrenCount()==0){
 
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+        String[] dam1= getResources().getStringArray(R.array.dam1);
+        String[] dam2= getResources().getStringArray(R.array.dam2);
+        String[] inf1= getResources().getStringArray(R.array.infantil1);
+        String[] inf2= getResources().getStringArray(R.array.infantil2);
+        String[] integ1= getResources().getStringArray(R.array.inter1);
+        String[] integ2= getResources().getStringArray(R.array.inter2);
+        String[] dien1= getResources().getStringArray(R.array.dientes1);
+        String[] dien2= getResources().getStringArray(R.array.dientes2);
+        String[] med1= getResources().getStringArray(R.array.mediacion1);
+        String[] med2= getResources().getStringArray(R.array.mediacion2);
         rd= findViewById(R.id.radioGroupPuestos);
         rd2= findViewById(R.id.radioGroupSexo);
 
@@ -75,7 +106,6 @@ public class RegistroActivity extends AppCompatActivity implements View.OnClickL
         if(nombre.equals("")){
             n.setBackgroundTintList(ColorStateList.valueOf(Color.RED));
             new MaterialAlertDialogBuilder(RegistroActivity.this)
-
                     .setMessage(getString(R.string.nombreIncompleto))
                     .setPositiveButton(R.string.ok,null)
                     .show();
@@ -123,8 +153,12 @@ public class RegistroActivity extends AppCompatActivity implements View.OnClickL
         else {
             r1= (RadioButton) findViewById(rd.getCheckedRadioButtonId());
             r2= (RadioButton) findViewById(rd2.getCheckedRadioButtonId());
-            u= new Usuario(nombre, apellidos, correo, r1.getText().toString(), r2.getText().toString(), contraseña,true);
-            ref= FirebaseDatabase.getInstance().getReference().child("Usuario");
+            Modulo mod= new Modulo("Programacion","DAM",1);
+            ArrayList<Modulo> modulos= new ArrayList<>();
+            modulos.add(mod);
+            Ciclo ciclo=new Ciclo("DAM",modulos);
+            u= new Usuario(nombre, apellidos, correo, r1.getText().toString(), r2.getText().toString(), contraseña,false,ciclo,modulos);
+            ref= FirebaseDatabase.getInstance().getReference("Usuario");
             ref.push().setValue(u);
             intent = new Intent(RegistroActivity.this, MenuPrincipal.class);
             intent.putExtra(getString(R.string.usuario), (Parcelable) u);

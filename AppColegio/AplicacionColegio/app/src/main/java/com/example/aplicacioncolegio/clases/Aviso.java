@@ -6,16 +6,17 @@ import android.os.Parcelable;
 import androidx.annotation.NonNull;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashSet;
 
 public class Aviso implements Serializable, Parcelable {
-    private HashSet<Usuario> usuarios;
+    private ArrayList<Usuario> usuarios;
     private String mensaje;
 
     public Aviso() {
     }
 
-    public Aviso(HashSet<Usuario> usuarios, String mensaje) {
+    public Aviso(ArrayList<Usuario> usuarios, String mensaje) {
         this.usuarios = usuarios;
         this.mensaje = mensaje;
     }
@@ -36,11 +37,11 @@ public class Aviso implements Serializable, Parcelable {
         }
     };
 
-    public HashSet<Usuario> getUsuarios() {
+    public ArrayList<Usuario> getUsuarios() {
         return usuarios;
     }
 
-    public void setUsuarios(HashSet<Usuario> usuarios) {
+    public void setUsuarios(ArrayList<Usuario> usuarios) {
         this.usuarios = usuarios;
     }
 

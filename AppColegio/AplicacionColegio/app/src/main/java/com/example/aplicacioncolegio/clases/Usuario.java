@@ -6,6 +6,7 @@ import android.os.Parcelable;
 import androidx.annotation.NonNull;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 public class Usuario implements Serializable, Parcelable {
     private String nombre;
@@ -15,20 +16,24 @@ public class Usuario implements Serializable, Parcelable {
     private String sexo;
     private String password;
     private boolean ausente;
+    private Ciclo ciclo;
+    private ArrayList<Modulo> modulos;
 
-    public Usuario( String nombre, String apellidos, String correo, String puesto, String sexo, String password, boolean ausente) {
+    public Usuario(String nombre, String apellidos, String correo, String puesto, String sexo, String password, boolean ausente, Ciclo ciclo, ArrayList<Modulo> modulos) {
         this.nombre = nombre;
         this.apellidos = apellidos;
         this.correo = correo;
         this.puesto = puesto;
         this.sexo = sexo;
         this.password = password;
-        this.ausente= ausente;
+        this.ausente = ausente;
+        this.ciclo = ciclo;
+        this.modulos = modulos;
     }
-
 
     public Usuario() {
     }
+
 
     protected Usuario(Parcel in) {
         nombre = in.readString();
@@ -37,6 +42,9 @@ public class Usuario implements Serializable, Parcelable {
         puesto = in.readString();
         sexo = in.readString();
         password = in.readString();
+        ausente = in.readByte() != 0;
+        ciclo = in.readParcelable(Ciclo.class.getClassLoader());
+        modulos = in.createTypedArrayList(Modulo.CREATOR);
     }
 
     public static final Creator<Usuario> CREATOR = new Creator<Usuario>() {
@@ -107,6 +115,22 @@ public class Usuario implements Serializable, Parcelable {
         this.password = password;
     }
 
+    public Ciclo getCiclo() {
+        return ciclo;
+    }
+
+    public void setCiclo(Ciclo ciclo) {
+        this.ciclo = ciclo;
+    }
+
+    public ArrayList<Modulo> getModulos() {
+        return modulos;
+    }
+
+    public void setModulos(ArrayList<Modulo> modulos) {
+        this.modulos = modulos;
+    }
+
     @Override
     public String toString() {
         return "Usuario{" +
@@ -117,6 +141,9 @@ public class Usuario implements Serializable, Parcelable {
                 ", sexo='" + sexo + '\'' +
                 ", password='" + password + '\'' +
                 '}';
+    }
+    public String nombreApellidos(){
+        return nombre+" "+apellidos;
     }
 
     @Override
@@ -132,5 +159,8 @@ public class Usuario implements Serializable, Parcelable {
         dest.writeString(puesto);
         dest.writeString(sexo);
         dest.writeString(password);
+        dest.writeByte((byte) (ausente ? 1 : 0));
+        dest.writeParcelable(ciclo, flags);
+        dest.writeTypedList(modulos);
     }
 }
