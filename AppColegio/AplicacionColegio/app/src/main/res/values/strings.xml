@@ -252,4 +252,11 @@
     </string-array>
     <string name="modulos">Modulos</string>
     <string name="ciclos">Ciclos</string>
+    <string-array name="ciclos">
+        <item>Desarrollo de Aplicaciones Multiplataforma</item>
+        <item>Protesis Dentales</item>
+        <item>Educacion Infantil</item>
+        <item>Integracion Social</item>
+        <item>Mediacion y Comunicacion</item>
+    </string-array>
 </resources>

@@ -18,6 +18,8 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.aplicacioncolegio.clases.Ciclo;
+import com.example.aplicacioncolegio.clases.Modulo;
 import com.example.aplicacioncolegio.clases.Usuario;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.firebase.database.DataSnapshot;
@@ -25,6 +27,8 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
 
 public class LauncherActivity extends AppCompatActivity implements View.OnClickListener, RadioGroup.OnCheckedChangeListener {
 
@@ -37,19 +41,76 @@ public class LauncherActivity extends AppCompatActivity implements View.OnClickL
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_launcher);
-        ref= FirebaseDatabase.getInstance().getReference(getString(R.string.usuario));
+        ref= FirebaseDatabase.getInstance().getReference().child(getString(R.string.modulos));
+        ref.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(snapshot.getChildrenCount()==0){
+                    int num=0;
+                    String[] dam1= getResources().getStringArray(R.array.dam1);
+                    String[] dam2= getResources().getStringArray(R.array.dam2);
+                    String[] inf1= getResources().getStringArray(R.array.infantil1);
+                    String[] inf2= getResources().getStringArray(R.array.infantil2);
+                    String[] integ1= getResources().getStringArray(R.array.inter1);
+                    String[] integ2= getResources().getStringArray(R.array.inter2);
+                    String[] dien1= getResources().getStringArray(R.array.dientes1);
+                    String[] dien2= getResources().getStringArray(R.array.dientes2);
+                    String[] med1= getResources().getStringArray(R.array.mediacion1);
+                    String[] med2= getResources().getStringArray(R.array.mediacion2);
+                    String[][] modulos1= {dam1,dien1,inf1,integ1,med1};
+                    String[][] modulos2={dam2,dien2,inf2,integ2,med2};
+                    String[] ciclos= getResources()
+                            .getStringArray(R.array.ciclos);
+                    for(String[] mods: modulos1){
+                        for(String mod:mods){
+                            if(num>4){
+                                num=0;
+                            }
+                            Modulo modulo= new Modulo(mod,ciclos[num],1);
+
+                            ref.push().setValue(modulo);
+                        }
+                        num++;
+                    }
+                    for(String[] mods: modulos2){
+                        for(String mod:mods){
+                            if(num>4){
+                                num=0;
+                            }
+                            Modulo modulo= new Modulo(mod,ciclos[num],2);
+                            num++;
+                            ref.push().setValue(modulo);
+                        }
+                    }
+                    ref=FirebaseDatabase.getInstance().getReference().child(getString(R.string.ciclos));
+                    for(int i=0;i<ciclos.length;i++){
+                        ArrayList<Modulo> modulosAnadir= new ArrayList<>();
+                        for(int j=0;j<dam1.length;j++){
+                            modulosAnadir.add(new Modulo(dam1[j],ciclos[i],1));
+                        }
+                        ref.push().setValue(new Ciclo(ciclos[i],modulosAnadir));
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
         botonInicio= findViewById(R.id.botonInicioSesion);
         botonRegistro= findViewById(R.id.botonRegistro);
         passwordOlvidado= findViewById(R.id.textoSeMeHaOlvidadoLaContraseña);
         passwordOlvidado.setOnClickListener(this);
         botonRegistro.setOnClickListener(this);
         botonInicio.setOnClickListener(this);
-        context= new ContextThemeWrapper(LauncherActivity.this, R.style.Theme_AplicacionColegio);
+
 
     }
 
     @Override
     public void onClick(View view) {
+
         if(view.getId()==botonRegistro.getId()){
             Intent registro = new Intent(LauncherActivity.this, RegistroActivity.class);
             startActivity(registro);

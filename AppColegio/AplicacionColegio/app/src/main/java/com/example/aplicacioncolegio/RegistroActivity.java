@@ -37,30 +37,6 @@ public class RegistroActivity extends AppCompatActivity implements View.OnClickL
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registro);
-        ref= FirebaseDatabase.getInstance().getReference(getString(R.string.modulos));
-        ref.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if(snapshot.getChildrenCount()==0){
-
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
-        String[] dam1= getResources().getStringArray(R.array.dam1);
-        String[] dam2= getResources().getStringArray(R.array.dam2);
-        String[] inf1= getResources().getStringArray(R.array.infantil1);
-        String[] inf2= getResources().getStringArray(R.array.infantil2);
-        String[] integ1= getResources().getStringArray(R.array.inter1);
-        String[] integ2= getResources().getStringArray(R.array.inter2);
-        String[] dien1= getResources().getStringArray(R.array.dientes1);
-        String[] dien2= getResources().getStringArray(R.array.dientes2);
-        String[] med1= getResources().getStringArray(R.array.mediacion1);
-        String[] med2= getResources().getStringArray(R.array.mediacion2);
         rd= findViewById(R.id.radioGroupPuestos);
         rd2= findViewById(R.id.radioGroupSexo);
 
