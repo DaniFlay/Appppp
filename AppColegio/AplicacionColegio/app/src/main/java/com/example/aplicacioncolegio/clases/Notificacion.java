@@ -6,24 +6,50 @@ import android.os.Parcelable;
 import androidx.annotation.NonNull;
 
 import java.io.Serializable;
+import java.util.Date;
 
 public class Notificacion implements Serializable, Parcelable {
-    private String nombre;
+    private Usuario emisor;
+    private Usuario usuario;
+    private String name;
+    private String descripcion;
     private String fecha;
-    private Object tipo;
+    private boolean visto;
 
-    public Notificacion(String nombre, String fecha, Object tipo) {
-        this.nombre = nombre;
+    public Notificacion(Usuario emisor,Usuario usuario, String name, String descripcion, String fecha, boolean visto) {
+        this.emisor=emisor;
+        this.usuario = usuario;
+        this.name = name;
+        this.descripcion = descripcion;
         this.fecha = fecha;
-        this.tipo= tipo;
+        this.visto = visto;
     }
 
     public Notificacion() {
     }
 
     protected Notificacion(Parcel in) {
-        nombre = in.readString();
+        emisor= in.readParcelable(Usuario.class.getClassLoader());
+        usuario = in.readParcelable(Usuario.class.getClassLoader());
+        name = in.readString();
+        descripcion = in.readString();
         fecha = in.readString();
+        visto = in.readByte() != 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeParcelable(emisor,flags);
+        dest.writeParcelable(usuario, flags);
+        dest.writeString(name);
+        dest.writeString(descripcion);
+        dest.writeString(fecha);
+        dest.writeByte((byte) (visto ? 1 : 0));
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
     }
 
     public static final Creator<Notificacion> CREATOR = new Creator<Notificacion>() {
@@ -38,20 +64,36 @@ public class Notificacion implements Serializable, Parcelable {
         }
     };
 
-    public Object getTipo() {
-        return tipo;
+    public Usuario getEmisor() {
+        return emisor;
     }
 
-    public void setTipo(Object tipo) {
-        this.tipo = tipo;
+    public void setEmisor(Usuario emisor) {
+        this.emisor = emisor;
     }
 
-    public String getNombre() {
-        return nombre;
+    public Usuario getUsuario() {
+        return usuario;
     }
 
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getDescripcion() {
+        return descripcion;
+    }
+
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
     }
 
     public String getFecha() {
@@ -62,14 +104,11 @@ public class Notificacion implements Serializable, Parcelable {
         this.fecha = fecha;
     }
 
-    @Override
-    public int describeContents() {
-        return 0;
+    public boolean isVisto() {
+        return visto;
     }
 
-    @Override
-    public void writeToParcel(@NonNull Parcel dest, int flags) {
-        dest.writeString(nombre);
-        dest.writeString(fecha);
+    public void setVisto(boolean visto) {
+        this.visto = visto;
     }
 }

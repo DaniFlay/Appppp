@@ -3,20 +3,33 @@ package com.example.aplicacioncolegio;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.view.MenuItemCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Parcelable;
+import android.view.Gravity;
 import android.view.MenuItem;
+import android.widget.TextView;
 
+import com.example.aplicacioncolegio.clases.Notificacion;
 import com.example.aplicacioncolegio.clases.Usuario;
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 public class MenuPrincipal extends AppCompatActivity {
 
     public DrawerLayout drawerLayout;
     public ActionBarDrawerToggle actionBarDrawerToggle;
+    public TextView notificaciones;
+    DatabaseReference ref;
+    public int contador;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,13 +37,16 @@ public class MenuPrincipal extends AppCompatActivity {
         Usuario usuario= getIntent().getParcelableExtra(getString(R.string.usuario));
             if(usuario.getPuesto().equals(getString(R.string.jefe))){
                 setContentView(R.layout.activity_menu_principal_jefe);
+                NavigationView nav_view= findViewById(R.id.nav_view);
                 drawerLayout=findViewById(R.id.drawer_layout_jefe);
+                notificaciones= (TextView) MenuItemCompat.getActionView(nav_view.getMenu().findItem(R.id.nav_notificaciones));
                 actionBarDrawerToggle=new ActionBarDrawerToggle(this, drawerLayout,R.string.abrir_menu_deslizante,R.string.cerrar_menu_deslizante);
                 drawerLayout.addDrawerListener(actionBarDrawerToggle);
                 actionBarDrawerToggle.syncState();
                 getSupportActionBar().setDisplayHomeAsUpEnabled(true);
                 getSupportActionBar().setTitle(R.string.menu_principal);
-                NavigationView nav_view= findViewById(R.id.nav_view);
+                initializeCountDrawer();
+
 
                 nav_view.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
                     @Override
@@ -199,6 +215,34 @@ public class MenuPrincipal extends AppCompatActivity {
         }
 
 
+    private void initializeCountDrawer(){
+        ref= FirebaseDatabase.getInstance().getReference(getString(R.string.notificaciones));
+        contador=0;
+        ref.addValueEventListener(new ValueEventListener() {
+
+            Usuario usuario= getIntent().getParcelableExtra(getString(R.string.usuario));
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for(DataSnapshot d: snapshot.getChildren()){
+                    Notificacion dummy= d.getValue(Notificacion.class);
+                    if(dummy.getUsuario().equals(usuario)){
+                        contador++;
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+        notificaciones.setGravity(Gravity.CENTER_VERTICAL);
+        notificaciones.setTypeface(null, Typeface.BOLD);
+        notificaciones.setTextColor(getResources().getColor(R.color.RED));
+        notificaciones.setText(String.valueOf(contador));
+        notificaciones.setGravity(Gravity.CENTER_VERTICAL);
+        notificaciones.setTypeface(null,Typeface.BOLD);
+    }
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if(actionBarDrawerToggle.onOptionsItemSelected(item)) {

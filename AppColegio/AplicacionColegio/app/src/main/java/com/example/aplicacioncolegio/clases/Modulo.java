@@ -9,12 +9,12 @@ import java.io.Serializable;
 
 public class Modulo implements Serializable, Parcelable {
     private String nombre;
-    private String ciclo;
+    private String cicloNombre;
     private int curso;
 
     public Modulo(String nombre, String ciclo, int curso) {
         this.nombre = nombre;
-        this.ciclo = ciclo;
+        this.cicloNombre = ciclo;
         this.curso = curso;
     }
 
@@ -23,7 +23,7 @@ public class Modulo implements Serializable, Parcelable {
 
     protected Modulo(Parcel in) {
         nombre = in.readString();
-        ciclo = in.readString();
+        cicloNombre = in.readString();
         curso = in.readInt();
     }
 
@@ -48,11 +48,11 @@ public class Modulo implements Serializable, Parcelable {
     }
 
     public String getCiclo() {
-        return ciclo;
+        return cicloNombre;
     }
 
     public void setCiclo(String ciclo) {
-        this.ciclo = ciclo;
+        this.cicloNombre = ciclo;
     }
 
     public int getCurso() {
@@ -76,7 +76,7 @@ public class Modulo implements Serializable, Parcelable {
     @Override
     public void writeToParcel(@NonNull Parcel dest, int flags) {
         dest.writeString(nombre);
-        dest.writeString(ciclo);
+        dest.writeString(cicloNombre);
         dest.writeInt(curso);
     }
 }

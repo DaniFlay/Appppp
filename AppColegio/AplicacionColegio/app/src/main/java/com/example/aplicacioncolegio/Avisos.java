@@ -15,6 +15,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 
 import com.example.aplicacioncolegio.clases.Aviso;
+import com.example.aplicacioncolegio.clases.Notificacion;
 import com.example.aplicacioncolegio.clases.Usuario;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.database.DataSnapshot;
@@ -23,6 +24,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -143,8 +146,15 @@ public class Avisos extends AppCompatActivity implements View.OnClickListener{
             dialog.show();
         }else{
             if(!profesorado.isEmpty()){
-
-                Aviso aviso= new Aviso(usuariosAvisos,mensaje.getText().toString());
+                ref= FirebaseDatabase.getInstance().getReference("Notificaciones");
+                DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+                LocalDateTime now = LocalDateTime.now();
+                String fecha= dtf.format(now);
+                for(int i=0;i<usuariosAvisos.size();i++){
+                    Notificacion notificacion= new Notificacion(usuario,usuariosAvisos.get(i),"Aviso",mensaje.getText().toString(),fecha,false);
+                    ref.push().setValue(notificacion);
+                }
+                Aviso aviso= new Aviso(usuario,usuariosAvisos,mensaje.getText().toString());
                 ref=FirebaseDatabase.getInstance().getReference("Avisos");
                 ref.push().setValue(aviso);
             }

@@ -146,6 +146,7 @@ public class Usuario implements Serializable, Parcelable {
         return nombre+" "+apellidos;
     }
 
+
     @Override
     public int describeContents() {
         return 0;

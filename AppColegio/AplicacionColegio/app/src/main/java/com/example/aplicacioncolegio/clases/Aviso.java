@@ -10,32 +10,26 @@ import java.util.ArrayList;
 import java.util.HashSet;
 
 public class Aviso implements Serializable, Parcelable {
+    private Usuario emisor;
     private ArrayList<Usuario> usuarios;
     private String mensaje;
 
-    public Aviso() {
-    }
-
-    public Aviso(ArrayList<Usuario> usuarios, String mensaje) {
+    public Aviso(Usuario emisor, ArrayList<Usuario> usuarios, String mensaje) {
+        this.emisor = emisor;
         this.usuarios = usuarios;
         this.mensaje = mensaje;
     }
 
-    protected Aviso(Parcel in) {
-        mensaje = in.readString();
+    public Aviso() {
     }
 
-    public static final Creator<Aviso> CREATOR = new Creator<Aviso>() {
-        @Override
-        public Aviso createFromParcel(Parcel in) {
-            return new Aviso(in);
-        }
+    public Usuario getEmisor() {
+        return emisor;
+    }
 
-        @Override
-        public Aviso[] newArray(int size) {
-            return new Aviso[size];
-        }
-    };
+    public void setEmisor(Usuario emisor) {
+        this.emisor = emisor;
+    }
 
     public ArrayList<Usuario> getUsuarios() {
         return usuarios;
@@ -53,13 +47,33 @@ public class Aviso implements Serializable, Parcelable {
         this.mensaje = mensaje;
     }
 
+    protected Aviso(Parcel in) {
+        emisor = in.readParcelable(Usuario.class.getClassLoader());
+        usuarios = in.createTypedArrayList(Usuario.CREATOR);
+        mensaje = in.readString();
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeParcelable(emisor, flags);
+        dest.writeTypedList(usuarios);
+        dest.writeString(mensaje);
+    }
+
     @Override
     public int describeContents() {
         return 0;
     }
 
-    @Override
-    public void writeToParcel(@NonNull Parcel dest, int flags) {
-        dest.writeString(mensaje);
-    }
+    public static final Creator<Aviso> CREATOR = new Creator<Aviso>() {
+        @Override
+        public Aviso createFromParcel(Parcel in) {
+            return new Aviso(in);
+        }
+
+        @Override
+        public Aviso[] newArray(int size) {
+            return new Aviso[size];
+        }
+    };
 }
