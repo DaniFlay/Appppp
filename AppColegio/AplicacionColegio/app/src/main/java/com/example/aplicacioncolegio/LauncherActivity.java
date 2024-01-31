@@ -9,6 +9,7 @@ import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Parcelable;
+import android.util.Log;
 import android.view.ContextThemeWrapper;
 import android.view.View;
 import android.widget.Button;
@@ -41,7 +42,7 @@ public class LauncherActivity extends AppCompatActivity implements View.OnClickL
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_launcher);
-        ref= FirebaseDatabase.getInstance().getReference().child(getString(R.string.modulos));
+        ref= FirebaseDatabase.getInstance().getReference(getString(R.string.modulos));
         ref.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -82,11 +83,54 @@ public class LauncherActivity extends AppCompatActivity implements View.OnClickL
                             ref.push().setValue(modulo);
                         }
                     }
-                    ref=FirebaseDatabase.getInstance().getReference().child(getString(R.string.ciclos));
-                    for(int i=0;i<ciclos.length;i++){
+                    ref=FirebaseDatabase.getInstance().getReference(getString(R.string.ciclos));
+                    for(int i=0;i<1;i++){
                         ArrayList<Modulo> modulosAnadir= new ArrayList<>();
                         for(int j=0;j<dam1.length;j++){
                             modulosAnadir.add(new Modulo(dam1[j],ciclos[i],1));
+                        }
+                        for(int j=0;j<dam2.length;j++){
+                            modulosAnadir.add(new Modulo(dam2[j],ciclos[i],1));
+                        }
+                        ref.push().setValue(new Ciclo(ciclos[i],modulosAnadir));
+                    }
+                    for(int i=1;i<2;i++){
+                        ArrayList<Modulo> modulosAnadir= new ArrayList<>();
+                        for(int j=0;j<dien1.length;j++){
+                            modulosAnadir.add(new Modulo(dien1[j],ciclos[i],1));
+                        }
+                        for(int j=0;j<dien2.length;j++){
+                            modulosAnadir.add(new Modulo(dien2[j],ciclos[i],1));
+                        }
+                        ref.push().setValue(new Ciclo(ciclos[i],modulosAnadir));
+                    }
+                    for(int i=2;i<3;i++){
+                        ArrayList<Modulo> modulosAnadir= new ArrayList<>();
+                        for(int j=0;j<inf1.length;j++){
+                            modulosAnadir.add(new Modulo(inf1[j],ciclos[i],1));
+                        }
+                        for(int j=0;j<inf2.length;j++){
+                            modulosAnadir.add(new Modulo(inf2[j],ciclos[i],1));
+                        }
+                        ref.push().setValue(new Ciclo(ciclos[i],modulosAnadir));
+                    }
+                    for(int i=3;i<4;i++){
+                        ArrayList<Modulo> modulosAnadir= new ArrayList<>();
+                        for(int j=0;j<integ1.length;j++){
+                            modulosAnadir.add(new Modulo(integ1[j],ciclos[i],1));
+                        }
+                        for(int j=0;j<integ2.length;j++){
+                            modulosAnadir.add(new Modulo(integ2[j],ciclos[i],1));
+                        }
+                        ref.push().setValue(new Ciclo(ciclos[i],modulosAnadir));
+                    }
+                    for(int i=4;i<5;i++){
+                        ArrayList<Modulo> modulosAnadir= new ArrayList<>();
+                        for(int j=0;j<med1.length;j++){
+                            modulosAnadir.add(new Modulo(med1[j],ciclos[i],1));
+                        }
+                        for(int j=0;j<med2.length;j++){
+                            modulosAnadir.add(new Modulo(med2[j],ciclos[i],1));
                         }
                         ref.push().setValue(new Ciclo(ciclos[i],modulosAnadir));
                     }
@@ -132,12 +176,14 @@ public class LauncherActivity extends AppCompatActivity implements View.OnClickL
                         .show();
             }
             else{
+                ref= FirebaseDatabase.getInstance().getReference(getString(R.string.usuario));
                 ref.addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         int num=0;
                         for(DataSnapshot d: snapshot.getChildren()){
                             dummy=d.getValue(Usuario.class);
+                            Log.d("QQQQQQ",dummy.toString());
                             if(dummy.getCorreo().equals(nombre.getText().toString()) && dummy.getPassword().equals(pwd.getText().toString())){
                                 num++;
                                 break;

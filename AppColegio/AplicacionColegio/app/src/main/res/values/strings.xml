@@ -259,4 +259,6 @@
         <item>Integracion Social</item>
         <item>Mediacion y Comunicacion</item>
     </string-array>
+    <string name="correoExiste">El usuario con el correo introducido ya existe</string>
+    <string name="editarPerfil">Editar perfil</string>
 </resources>

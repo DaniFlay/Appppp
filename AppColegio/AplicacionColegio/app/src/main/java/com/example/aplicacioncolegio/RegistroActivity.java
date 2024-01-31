@@ -8,6 +8,7 @@ import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Parcelable;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -32,14 +33,35 @@ public class RegistroActivity extends AppCompatActivity implements View.OnClickL
     private Usuario u;
     RadioButton r1,r2;
     DatabaseReference ref;
+    ArrayList<Modulo> modulos;
+    boolean existe;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registro);
+        existe=false;
         rd= findViewById(R.id.radioGroupPuestos);
         rd2= findViewById(R.id.radioGroupSexo);
+        modulos= new ArrayList<>();
+        ref=FirebaseDatabase.getInstance().getReference(getString(R.string.modulos));
+        ref.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for(DataSnapshot d: snapshot.getChildren()){
+                    Modulo mod= d.getValue(Modulo.class);
+                    Log.d("AAAAAAAAAAAA",mod.toString());
+                    if(mod.getCiclo().equals("Desarrollo de Aplicaciones Multiplataforma")){
+                        modulos.add(mod);
+                    }
+                }
+            }
 
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
         rd.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
@@ -79,6 +101,23 @@ public class RegistroActivity extends AppCompatActivity implements View.OnClickL
         correo= c.getText().toString();
         contraseña= pwd.getText().toString();
         contraseña2= pwd2.getText().toString();
+        ref=FirebaseDatabase.getInstance().getReference(getString(R.string.usuario));
+        ref.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for(DataSnapshot d: snapshot.getChildren()){
+                    Usuario dummy= d.getValue(Usuario.class);
+                    if(dummy.getCorreo().equals(correo)){
+                        existe=true;
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
         if(nombre.equals("")){
             n.setBackgroundTintList(ColorStateList.valueOf(Color.RED));
             new MaterialAlertDialogBuilder(RegistroActivity.this)
@@ -126,13 +165,18 @@ public class RegistroActivity extends AppCompatActivity implements View.OnClickL
                     .setPositiveButton(R.string.ok,null)
                     .show();
         }
+        else if(existe){
+            new MaterialAlertDialogBuilder(RegistroActivity.this)
+                    .setMessage(getString(R.string.correoExiste))
+                    .setPositiveButton(R.string.ok,null)
+                    .show();
+        }
         else {
             r1= (RadioButton) findViewById(rd.getCheckedRadioButtonId());
             r2= (RadioButton) findViewById(rd2.getCheckedRadioButtonId());
-            Modulo mod= new Modulo("Programacion","DAM",1);
-            ArrayList<Modulo> modulos= new ArrayList<>();
-            modulos.add(mod);
-            Ciclo ciclo=new Ciclo("DAM",modulos);
+
+
+            Ciclo ciclo=new Ciclo("Desarrollo de Aplicaciones Multiplataforma",modulos);
             u= new Usuario(nombre, apellidos, correo, r1.getText().toString(), r2.getText().toString(), contraseña,false,ciclo,modulos);
             ref= FirebaseDatabase.getInstance().getReference("Usuario");
             ref.push().setValue(u);

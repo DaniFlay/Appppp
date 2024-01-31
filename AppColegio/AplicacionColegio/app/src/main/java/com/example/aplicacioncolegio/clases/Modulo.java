@@ -8,13 +8,13 @@ import androidx.annotation.NonNull;
 import java.io.Serializable;
 
 public class Modulo implements Serializable, Parcelable {
-    private String nombre;
-    private String cicloNombre;
-    private int curso;
+    public String nombre;
+    public String nombreCiclo;
+    public int curso;
 
-    public Modulo(String nombre, String ciclo, int curso) {
+    public Modulo(String nombre, String nombreCiclo, int curso) {
         this.nombre = nombre;
-        this.cicloNombre = ciclo;
+        this.nombreCiclo = nombreCiclo;
         this.curso = curso;
     }
 
@@ -23,7 +23,7 @@ public class Modulo implements Serializable, Parcelable {
 
     protected Modulo(Parcel in) {
         nombre = in.readString();
-        cicloNombre = in.readString();
+        nombreCiclo = in.readString();
         curso = in.readInt();
     }
 
@@ -48,11 +48,11 @@ public class Modulo implements Serializable, Parcelable {
     }
 
     public String getCiclo() {
-        return cicloNombre;
+        return nombreCiclo;
     }
 
     public void setCiclo(String ciclo) {
-        this.cicloNombre = ciclo;
+        this.nombreCiclo = ciclo;
     }
 
     public int getCurso() {
@@ -65,7 +65,11 @@ public class Modulo implements Serializable, Parcelable {
 
     @Override
     public String toString() {
-        return nombre ;
+        return "Modulo{" +
+                "nombre='" + nombre + '\'' +
+                ", nombreCiclo='" + nombreCiclo + '\'' +
+                ", curso=" + curso +
+                '}';
     }
 
     @Override
@@ -76,7 +80,7 @@ public class Modulo implements Serializable, Parcelable {
     @Override
     public void writeToParcel(@NonNull Parcel dest, int flags) {
         dest.writeString(nombre);
-        dest.writeString(cicloNombre);
+        dest.writeString(nombreCiclo);
         dest.writeInt(curso);
     }
 }

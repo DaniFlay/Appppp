@@ -81,6 +81,7 @@
             android:parentActivityName=".TareasAdministrativas" />
         <activity
             android:name=".EditarPerfilActivity"
+            android:parentActivityName=".CambioPassword"
             android:exported="false" />
         <activity
             android:name=".MenuPrincipal"

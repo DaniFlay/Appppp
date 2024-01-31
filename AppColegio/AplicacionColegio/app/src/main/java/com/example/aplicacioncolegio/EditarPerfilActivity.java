@@ -50,6 +50,8 @@ public class EditarPerfilActivity extends AppCompatActivity implements View.OnCl
         nombre.setText(usuario.getNombre());
         apellidos.setText(usuario.getApellidos());
         correo.setText(usuario.getCorreo());
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setTitle(R.string.editarPerfil);
         if(usuario.getSexo().equals(getString(R.string.hombre))){
             sexo= (RadioButton) findViewById(R.id.radioButtonHombre);
         }
@@ -134,6 +136,7 @@ public class EditarPerfilActivity extends AppCompatActivity implements View.OnCl
 
                 }
             });
+
             Intent intent;
             intent= new Intent(EditarPerfilActivity.this, MenuPrincipal.class);
             intent.putExtra(getString(R.string.usuario), (Parcelable) usuario);

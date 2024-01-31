@@ -9,15 +9,18 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 public class Usuario implements Serializable, Parcelable {
-    private String nombre;
-    private String apellidos;
-    private String correo;
-    private String puesto;
-    private String sexo;
-    private String password;
-    private boolean ausente;
-    private Ciclo ciclo;
-    private ArrayList<Modulo> modulos;
+    public String nombre;
+    public String apellidos;
+    public String correo;
+    public String puesto;
+    public String sexo;
+    public String password;
+    public boolean ausente;
+    public Ciclo ciclo;
+    public ArrayList<Modulo> modulos;
+
+    public Usuario() {
+    }
 
     public Usuario(String nombre, String apellidos, String correo, String puesto, String sexo, String password, boolean ausente, Ciclo ciclo, ArrayList<Modulo> modulos) {
         this.nombre = nombre;
@@ -31,10 +34,6 @@ public class Usuario implements Serializable, Parcelable {
         this.modulos = modulos;
     }
 
-    public Usuario() {
-    }
-
-
     protected Usuario(Parcel in) {
         nombre = in.readString();
         apellidos = in.readString();
@@ -45,6 +44,24 @@ public class Usuario implements Serializable, Parcelable {
         ausente = in.readByte() != 0;
         ciclo = in.readParcelable(Ciclo.class.getClassLoader());
         modulos = in.createTypedArrayList(Modulo.CREATOR);
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(nombre);
+        dest.writeString(apellidos);
+        dest.writeString(correo);
+        dest.writeString(puesto);
+        dest.writeString(sexo);
+        dest.writeString(password);
+        dest.writeByte((byte) (ausente ? 1 : 0));
+        dest.writeParcelable(ciclo, flags);
+        dest.writeTypedList(modulos);
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
     }
 
     public static final Creator<Usuario> CREATOR = new Creator<Usuario>() {
@@ -58,14 +75,6 @@ public class Usuario implements Serializable, Parcelable {
             return new Usuario[size];
         }
     };
-
-    public boolean isAusente() {
-        return ausente;
-    }
-
-    public void setAusente(boolean ausente) {
-        this.ausente = ausente;
-    }
 
     public String getNombre() {
         return nombre;
@@ -115,6 +124,14 @@ public class Usuario implements Serializable, Parcelable {
         this.password = password;
     }
 
+    public boolean isAusente() {
+        return ausente;
+    }
+
+    public void setAusente(boolean ausente) {
+        this.ausente = ausente;
+    }
+
     public Ciclo getCiclo() {
         return ciclo;
     }
@@ -131,6 +148,10 @@ public class Usuario implements Serializable, Parcelable {
         this.modulos = modulos;
     }
 
+    public String nombreApellidos() {
+        return this.getNombre()+" "+this.getApellidos();
+    }
+
     @Override
     public String toString() {
         return "Usuario{" +
@@ -140,28 +161,9 @@ public class Usuario implements Serializable, Parcelable {
                 ", puesto='" + puesto + '\'' +
                 ", sexo='" + sexo + '\'' +
                 ", password='" + password + '\'' +
+                ", ausente=" + ausente +
+                ", ciclo=" + ciclo +
+                ", modulos=" +modulos+
                 '}';
-    }
-    public String nombreApellidos(){
-        return nombre+" "+apellidos;
-    }
-
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(@NonNull Parcel dest, int flags) {
-        dest.writeString(nombre);
-        dest.writeString(apellidos);
-        dest.writeString(correo);
-        dest.writeString(puesto);
-        dest.writeString(sexo);
-        dest.writeString(password);
-        dest.writeByte((byte) (ausente ? 1 : 0));
-        dest.writeParcelable(ciclo, flags);
-        dest.writeTypedList(modulos);
     }
 }
