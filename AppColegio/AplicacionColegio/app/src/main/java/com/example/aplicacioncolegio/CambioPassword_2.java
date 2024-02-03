@@ -5,12 +5,14 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.aplicacioncolegio.clases.Usuario;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -32,7 +34,7 @@ public class CambioPassword_2 extends AppCompatActivity implements View.OnClickL
         pwd2= findViewById(R.id.nuevaConstraseña2);
         cambiar= findViewById(R.id.botonCambiar);
         cambiar.setOnClickListener(this);
-        usuario= getIntent().getParcelableExtra(getString(R.string.usuario));
+        usuario= getIntent().getParcelableExtra("usuario");
     }
 
     @Override
@@ -44,10 +46,12 @@ public class CambioPassword_2 extends AppCompatActivity implements View.OnClickL
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         for(DataSnapshot d: snapshot.getChildren()){
                             usuario2= d.getValue(Usuario.class);
+                            Log.d("user1",usuario.getCorreo());
+                            Log.d("user2",usuario2.getCorreo());
                             if(usuario2.getCorreo().equals(usuario.getCorreo())){
                                 usuario.setPassword(pwd.getText().toString());
                                 d.getRef().setValue(usuario);
-                                Toast.makeText(CambioPassword_2.this, getString(R.string.contraseñaCambiada),Toast.LENGTH_SHORT).show();
+                                Snackbar.make(v, getString(R.string.contraseñaCambiada),Snackbar.LENGTH_SHORT).show();
                                 Intent intent= new Intent(CambioPassword_2.this, LauncherActivity.class);
                                 startActivity(intent);
                             }
@@ -59,6 +63,8 @@ public class CambioPassword_2 extends AppCompatActivity implements View.OnClickL
 
                     }
                 });
+            }else{
+                Snackbar.make(v,getString(R.string.contraseñaNoCoincide),Snackbar.LENGTH_SHORT).show();
             }
         }
     }

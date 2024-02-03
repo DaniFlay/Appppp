@@ -6,11 +6,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Parcelable;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.example.aplicacioncolegio.clases.MailAPI;
 import com.example.aplicacioncolegio.clases.Usuario;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.firebase.database.DataSnapshot;
@@ -28,7 +28,7 @@ public class CambioPassword extends AppCompatActivity implements View.OnClickLis
     boolean existe;
     Usuario usuario;
     Random rand;
-    String codigo, correoTexto;
+    String codigo, correoTexto, subject;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,18 +47,17 @@ public class CambioPassword extends AppCompatActivity implements View.OnClickLis
     @Override
     public void onClick(View v) {
         if(v.getId()==comprobar.getId()){
-            Log.d("AAAAAAAAA",correo.getText().toString());
 
             ref.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
-                    Log.d("BBBBBBBBBBBBBBBBB",snapshot.getChildrenCount()+"");
                     for(DataSnapshot d:snapshot.getChildren()){
 
                         usuario= d.getValue(Usuario.class);
 
                         if(usuario.getCorreo().equals(correo.getText().toString())){
                             existe=true;
+                            break;
                         }
                     }
                     if(existe){
@@ -67,12 +66,13 @@ public class CambioPassword extends AppCompatActivity implements View.OnClickLis
 
                         }
                         correoTexto= correo.getText().toString();
-                        Intent intent= new Intent(Intent.ACTION_SEND);
-                        intent.putExtra(Intent.EXTRA_EMAIL,correoTexto);
-                        intent.putExtra(Intent.EXTRA_SUBJECT,"Codigo de confirmacion");
-                        intent.putExtra(Intent.EXTRA_TEXT,codigo);
-                        intent.setType("message/rfc822");
-                        startActivity(Intent.createChooser(intent, "Escoge la app"));
+                        subject= getString(R.string.codigoConfirmacion);
+                        MailAPI mailAPI= new MailAPI(CambioPassword.this,correoTexto,subject,String.valueOf(codigo));
+                        mailAPI.execute();
+                        Intent intent= new Intent(CambioPassword.this,CodigoVerificacionActivity.class);
+                        intent.putExtra("codigo",String.valueOf(codigo));
+                        intent.putExtra("usuario",(Parcelable) usuario);
+                        startActivity(intent);
                     }else{
                         new MaterialAlertDialogBuilder(CambioPassword.this)
                                 .setMessage(getString(R.string.usuarioNoExiste))

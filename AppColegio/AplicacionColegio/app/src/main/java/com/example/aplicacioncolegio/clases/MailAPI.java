@@ -2,6 +2,7 @@ package com.example.aplicacioncolegio.clases;
 
 import android.content.Context;
 import android.os.AsyncTask;
+import android.util.Log;
 
 
 import androidx.loader.content.AsyncTaskLoader;
@@ -20,12 +21,11 @@ import javax.mail.internet.MimeMessage;
 public class MailAPI extends AsyncTask<Void, Void, Void> {
     private Context context;
     private Session session;
-    private String main, subject, message;
+    private String recipient, subject, message;
 
-    public MailAPI(Context context, Session session, String main, String subject, String message) {
+    public MailAPI(Context context,  String recipient, String subject, String message) {
         this.context = context;
-        this.session = session;
-        this.main = main;
+        this.recipient = recipient;
         this.subject = subject;
         this.message = message;
     }
@@ -38,6 +38,8 @@ public class MailAPI extends AsyncTask<Void, Void, Void> {
         properties.put("mail.smtp.socketFactory.class","javax.net.ssl.SSLSocketFactory");
         properties.put("mail.smtp.auth","true");
         properties.put("mail.smtp.port","465");
+        properties.put("mail.smtp.ssl.trust","smtp.gmail.com");
+
 
         session= Session.getDefaultInstance(properties, new javax.mail.Authenticator(){
             protected PasswordAuthentication getPasswordAuthentication(){
@@ -48,15 +50,13 @@ public class MailAPI extends AsyncTask<Void, Void, Void> {
         MimeMessage mimeMessage= new MimeMessage(session);
         try{
             mimeMessage.setFrom(new InternetAddress(Utils.email));
-            mimeMessage.addRecipients(Message.RecipientType.TO, String.valueOf(new InternetAddress(main)));
+            mimeMessage.addRecipients(Message.RecipientType.TO, String.valueOf(new InternetAddress(recipient)));
             mimeMessage.setSubject(subject);
             mimeMessage.setText(message);
             Transport.send(mimeMessage);
-        } catch (AddressException e) {
-            throw new RuntimeException(e);
         } catch (MessagingException e) {
             throw new RuntimeException(e);
         }
-return null;
+        return null;
     }
 }

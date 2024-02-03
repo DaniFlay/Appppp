@@ -261,4 +261,9 @@
     </string-array>
     <string name="correoExiste">El usuario con el correo introducido ya existe</string>
     <string name="editarPerfil">Editar perfil</string>
+    <string name="codigoConfirmacion">Codigo de confirmación</string>
+    <string name="envioCodigo">Se va a enviar un código de confirmación al correo para poder cambiar la contraseña</string>
+    <string name="codigoVerifiacion">Código de verificación</string>
+    <string name="codigoIncorrecto">El código introducido es incorrecto</string>
+    <string name="introduzcaCodigo">Introduzca el código enviado al correo electrónico</string>
 </resources>

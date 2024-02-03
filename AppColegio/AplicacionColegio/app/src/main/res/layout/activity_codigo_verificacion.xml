@@ -1,67 +1,63 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/janna"
-    android:orientation="vertical"
-    tools:context=".EditarPerfilActivity"
-    android:paddingTop="20dp">
+    tools:context=".CodigoVerificacionActivity"
+    android:background="@color/janna">
     <ImageView
         android:id="@+id/iconoColegio"
         android:layout_width="match_parent"
         android:layout_height="115dp"
+        android:layout_alignParentTop="true"
         android:layout_marginTop="40dp"
         android:contentDescription="@string/icono"
         app:srcCompat="@mipmap/ic_launcher" />
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="30dp"
-        android:layout_marginTop="100dp"
-        android:text="@string/nuevaContraseña"
-        >
+        android:text="@string/introduzcaCodigo"
+        android:paddingTop="40dp"
+        android:textAlignment="center"
+        android:layout_below="@+id/iconoColegio"
+        android:id="@+id/infoVentana">
+
     </TextView>
-
-
-    <EditText
-        android:id="@+id/nuevaContraseña"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="30dp"
-        android:layout_marginEnd="30dp"
-        android:ems="17"
-        android:inputType="textPassword">
-
-    </EditText>
     <TextView
+        android:id="@+id/textoCodigo"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="30dp"
-        android:layout_marginTop="20dp"
-        android:text="@string/nuevaContraseña2">
+        android:layout_marginTop="50dp"
+        android:layout_below="@+id/infoVentana"
+        android:text="@string/codigoVerifiacion">
     </TextView>
 
 
     <EditText
-        android:id="@+id/nuevaConstraseña2"
+        android:id="@+id/codigo"
+        android:layout_below="@+id/textoCodigo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="30dp"
         android:layout_marginEnd="30dp"
         android:ems="17"
-        android:inputType="textPassword">
+        android:inputType="number">
 
     </EditText>
 
     <Button
         android:layout_marginTop="30dp"
-        android:id="@+id/botonCambiar"
+        android:id="@+id/botonComprobar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/cambiar"
+        android:text="@string/comprobar"
         android:backgroundTint="@color/boton"
         android:textColor="@color/white"
-        android:layout_gravity="center"/>
-</LinearLayout>
+        android:layout_gravity="center"
+        android:layout_below="@+id/codigo"
+        android:layout_centerInParent="true"/>
+
+</RelativeLayout>
