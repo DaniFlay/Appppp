@@ -266,4 +266,18 @@
     <string name="codigoVerifiacion">Código de verificación</string>
     <string name="codigoIncorrecto">El código introducido es incorrecto</string>
     <string name="introduzcaCodigo">Introduzca el código enviado al correo electrónico</string>
+    <string name="pendienteEstado">Pendiente</string>
+    <string name="aceptadoEstado">Aceptado</string>
+    <string name="rechazadoEstado">Rechazado</string>
+    <string name="aviso">Aviso</string>
+    <string name="reunion">Reunion</string>
+    <string-array name="tareas">
+        <item>Firma de actas</item>
+        <item>Entrega de circulares</item>
+        <item>Reparto de horarios</item>
+        <item>Entrega de programaciones</item>
+        <item>Entrega de normas</item>
+    </string-array>
+    <string name="informe">Informe</string>
+    <string name="mostrarContraseña">Mostrar contraseña</string>
 </resources>

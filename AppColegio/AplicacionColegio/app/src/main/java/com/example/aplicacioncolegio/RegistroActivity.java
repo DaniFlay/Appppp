@@ -50,7 +50,6 @@ public class RegistroActivity extends AppCompatActivity implements View.OnClickL
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for(DataSnapshot d: snapshot.getChildren()){
                     Modulo mod= d.getValue(Modulo.class);
-                    Log.d("AAAAAAAAAAAA",mod.toString());
                     if(mod.getCiclo().equals("Desarrollo de Aplicaciones Multiplataforma")){
                         modulos.add(mod);
                     }

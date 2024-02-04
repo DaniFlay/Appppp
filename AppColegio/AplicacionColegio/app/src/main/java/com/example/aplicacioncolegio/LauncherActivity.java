@@ -9,10 +9,12 @@ import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Parcelable;
+import android.text.InputType;
 import android.util.Log;
 import android.view.ContextThemeWrapper;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -38,10 +40,16 @@ public class LauncherActivity extends AppCompatActivity implements View.OnClickL
     Button botonInicio, botonRegistro;
     Context context;
     TextView passwordOlvidado;
+    CheckBox checkbox;
+    EditText nombre, pwd;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_launcher);
+         nombre= (EditText) findViewById(R.id.contentUsername);
+         pwd= (EditText) findViewById(R.id.contentPassword);
+        checkbox= findViewById(R.id.checkBox);
+        checkbox.setOnClickListener(this);
         ref= FirebaseDatabase.getInstance().getReference(getString(R.string.modulos));
         ref.addValueEventListener(new ValueEventListener() {
             @Override
@@ -158,9 +166,17 @@ public class LauncherActivity extends AppCompatActivity implements View.OnClickL
         if(view.getId()==botonRegistro.getId()){
             Intent registro = new Intent(LauncherActivity.this, RegistroActivity.class);
             startActivity(registro);
-        }else if(view.getId()==botonInicio.getId()){
-            EditText nombre= (EditText) findViewById(R.id.contentUsername);
-            EditText pwd= (EditText) findViewById(R.id.contentPassword);
+        }else if(view.getId()==checkbox.getId()){
+            if(checkbox.isChecked()){
+                pwd.setInputType(InputType.TYPE_CLASS_TEXT);
+            }
+            else{
+                pwd.setInputType(InputType.TYPE_TEXT_VARIATION_PASSWORD);
+
+            }
+        }
+        else if(view.getId()==botonInicio.getId()){
+
             if(nombre.getText().toString().equals("")){
                 nombre.setBackgroundTintList(ColorStateList.valueOf(Color.RED));
                 new MaterialAlertDialogBuilder(context)
@@ -183,7 +199,6 @@ public class LauncherActivity extends AppCompatActivity implements View.OnClickL
                         int num=0;
                         for(DataSnapshot d: snapshot.getChildren()){
                             dummy=d.getValue(Usuario.class);
-                            Log.d("QQQQQQ",dummy.toString());
                             if(dummy.getCorreo().equals(nombre.getText().toString()) && dummy.getPassword().equals(pwd.getText().toString())){
                                 num++;
                                 break;
@@ -217,7 +232,7 @@ public class LauncherActivity extends AppCompatActivity implements View.OnClickL
     }
     public void entrar(Usuario dummy){
         Intent inicioSesion= new Intent(LauncherActivity.this,MenuPrincipal.class);
-        inicioSesion.putExtra(getString(R.string.usuario), (Parcelable) dummy);
+        inicioSesion.putExtra("usuario", (Parcelable) dummy);
         startActivity(inicioSesion);
     }
 }

@@ -1,5 +1,6 @@
 package com.example.aplicacioncolegio;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.AlertDialog;
@@ -15,8 +16,18 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TimePicker;
 
+import com.example.aplicacioncolegio.clases.Notificacion;
+import com.example.aplicacioncolegio.clases.Reunion;
+import com.example.aplicacioncolegio.clases.Usuario;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashSet;
@@ -26,16 +37,22 @@ public class ConvocarReunion extends AppCompatActivity implements View.OnClickLi
     EditText participantess, fecha, horaa, observaciones;
     Button enviar;
     ImageButton añadir, bFecha, bHora;
-    Set<String> profesorado= new HashSet<String>();
-    boolean[] checked = {false,false,false,false,false};
+    HashSet<Usuario> profesorado= new HashSet<Usuario>();
+    boolean[] checked ;
     String[] texto;
     int[] botones;
+    Usuario usuario;
+    DatabaseReference ref;
+    ArrayList<Usuario> usuarios;
+    ArrayList<Usuario> usuariosAvisos;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_convocar_reunion);
         texto= getIntent().getStringArrayExtra("texto");
         botones = getIntent().getIntArrayExtra("botones");
+        usuario= getIntent().getParcelableExtra("usuario");
         participantess= findViewById(R.id.participantes);
         fecha= findViewById(R.id.fecha);
         horaa= findViewById(R.id.horaInicio);
@@ -50,10 +67,28 @@ public class ConvocarReunion extends AppCompatActivity implements View.OnClickLi
         añadir.setOnClickListener(this);
         bFecha.setOnClickListener(this);
         bHora.setOnClickListener(this);
+        usuarios= new ArrayList<>();
+        ref= FirebaseDatabase.getInstance().getReference(getString(R.string.usuario));
+        ref.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for(DataSnapshot d: snapshot.getChildren()){
+                    usuarios.add(d.getValue(Usuario.class));
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+
     }
 
     @Override
     public void onClick(View v) {
+
         if(v.getId()==R.id.botonFecha){
             Calendar c= Calendar.getInstance();
             int dia= c.get(Calendar.DAY_OF_MONTH);
@@ -83,17 +118,49 @@ public class ConvocarReunion extends AppCompatActivity implements View.OnClickLi
         }else if(v.getId()== R.id.botonAñadir){
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setTitle(getString(R.string.eligeAlosParticipantes));
-            String[] participantes = {"Jose Antonio Perez", "Miguel Rojo", "Jose Maria Tejero", "Manuel Jose Gonzalez", "Leonardo Bosques"};
-            builder.setMultiChoiceItems(participantes, null, new DialogInterface.OnMultiChoiceClickListener() {
+            checked= new boolean[usuarios.size()];
+            String[] participantes = new String[usuarios.size()];
+            for(int i=0; i<participantes.length;i++){
+                Usuario dummy = usuarios.get(i);
+                participantes[i]=dummy.getNombre()+" "+dummy.getApellidos();
+            }
+            builder.setMultiChoiceItems(participantes, checked, new DialogInterface.OnMultiChoiceClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which, boolean isChecked) {
                     if (isChecked){
-                        profesorado.add(participantes[which]);
-                        checked[which]=true;
+                        for(int i=0; i<usuarios.size();i++){
+                            String[] nombreApellidos= participantes[which].split(" ");
+                            if(nombreApellidos.length==3){
+                                if(usuarios.get(i).getNombre().equals(nombreApellidos[0])&& usuarios.get(i).getApellidos().equals(nombreApellidos[1]+" "+nombreApellidos[2])){
+                                    profesorado.add(usuarios.get(i));
+                                    checked[which]=true;
+                                }
+                            }
+                            else{
+                                if(usuarios.get(i).getNombre().equals(nombreApellidos[0])&& usuarios.get(i).getApellidos().equals(nombreApellidos[1])){
+                                    profesorado.add(usuarios.get(i));
+                                    checked[which]=true;
+                                }
+                            }
+
+                        }
                     }
                     else{
-                        profesorado.remove(participantes[which]);
-                        checked[which]=false;
+                        for(int i=0; i<usuarios.size();i++){
+                            String[] nombreApellidos= participantes[which].split(" ");
+                            if(nombreApellidos.length==3){
+                                if(usuarios.get(i).getNombre().equals(nombreApellidos[0])&& usuarios.get(i).getApellidos().equals(nombreApellidos[1]+" "+nombreApellidos[2])){
+                                    profesorado.remove(usuarios.get(i));
+                                    checked[which]=false;
+                                }
+                            }
+                            else{
+                                if(usuarios.get(i).getNombre().equals(nombreApellidos[0])&& usuarios.get(i).getApellidos().equals(nombreApellidos[1])){
+                                    profesorado.remove(usuarios.get(i));
+                                    checked[which]=false;
+                                }
+                            }
+                        }
                     }
 
                 }
@@ -101,7 +168,13 @@ public class ConvocarReunion extends AppCompatActivity implements View.OnClickLi
             builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-                    participantess.setText(profesorado.toString());
+                    usuariosAvisos= new ArrayList<>(profesorado);
+                    String recibidores="[";
+                    for(int i=0;i<usuariosAvisos.size()-1;i++){
+                        recibidores+=usuariosAvisos.get(i).nombreApellidos()+",";
+                    }
+                    recibidores+=usuariosAvisos.get(usuariosAvisos.size()-1).nombreApellidos()+"]";
+                    participantess.setText(recibidores);
                 }
             });
             builder.setNegativeButton(R.string.cancelar, null);
@@ -109,6 +182,17 @@ public class ConvocarReunion extends AppCompatActivity implements View.OnClickLi
             dialog.show();
         }
         else{
+            ref= FirebaseDatabase.getInstance().getReference(getString(R.string.reuniones));
+            DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+            LocalDateTime now = LocalDateTime.now();
+            String date= dtf.format(now);
+            Reunion reunion= new Reunion(usuariosAvisos,date,horaa.getText().toString(),observaciones.getText().toString());
+            ref.push().setValue(reunion);
+            ref= FirebaseDatabase.getInstance().getReference(getString(R.string.notificacion));
+            for(Usuario u:usuariosAvisos){
+                Notificacion notificacion = new Notificacion(usuario, u,getString(R.string.reunion),observaciones.getText().toString(),date,false);
+                ref.push().setValue(notificacion);
+            }
             Snackbar.make(v, R.string.sehaenviadoconexito,Snackbar.LENGTH_LONG)
                     .setAction(R.string.aceptar, new View.OnClickListener() {
                         @Override

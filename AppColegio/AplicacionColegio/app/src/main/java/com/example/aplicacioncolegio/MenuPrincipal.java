@@ -30,11 +30,12 @@ public class MenuPrincipal extends AppCompatActivity {
     public TextView notificaciones;
     DatabaseReference ref;
     public int contador;
+    Usuario usuario;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Usuario usuario= getIntent().getParcelableExtra(getString(R.string.usuario));
+        usuario= getIntent().getParcelableExtra("usuario");
             if(usuario.getPuesto().equals(getString(R.string.jefe))){
                 setContentView(R.layout.activity_menu_principal_jefe);
                 NavigationView nav_view= findViewById(R.id.nav_view);
@@ -60,34 +61,35 @@ public class MenuPrincipal extends AppCompatActivity {
                         }
                         else if (item.getItemId()==R.id.nav_micuenta) {
                             intent = new Intent(MenuPrincipal.this, EditarPerfilActivity.class);
-                            intent.putExtra(getString(R.string.usuario), (Parcelable) usuario);
+                            intent.putExtra("usuario", (Parcelable) usuario);
                             startActivity(intent);
                         }
                         else if(item.getItemId()==R.id.nav_notificaciones){
                             intent= new Intent(MenuPrincipal.this, Notificaciones.class);
+                            intent.putExtra("usuario", (Parcelable) usuario);
                             startActivity(intent);
                         }
                         else if (item.getItemId()==R.id.nav_horario) {
                             intent= new Intent(MenuPrincipal.this, Horario.class);
+                            intent.putExtra("usuario", (Parcelable) usuario);
                             startActivity(intent);
 
                         }else if (item.getItemId()==R.id.nav_reuniones) {
                             intent = new Intent(MenuPrincipal.this,Reuniones.class);
-                            intent.putExtra(getString(R.string.usuario), (Parcelable) usuario);
-
+                            intent.putExtra("usuario", (Parcelable) usuario);
                             startActivity(intent);
                         }
                         else if(item.getItemId()== R.id.nav_guardias){
                             intent= new Intent(MenuPrincipal.this, InformeGuardia.class);
-                            intent.putExtra(getString(R.string.usuario), (Parcelable) usuario);
+                            intent.putExtra("usuario", (Parcelable) usuario);
                             startActivity(intent);
                         }else if(item.getItemId()==R.id.nav_mensajes){
                             intent= new Intent(MenuPrincipal.this, EnviarMensaje.class);
-                            intent.putExtra(getString(R.string.usuario), (Parcelable) usuario);
+                            intent.putExtra("usuario", (Parcelable) usuario);
                             startActivity(intent);
                         } else if (item.getItemId()==R.id.nav_tareas) {
                             intent= new Intent(MenuPrincipal.this, FijarTareas.class);
-                            intent.putExtra(getString(R.string.usuario), (Parcelable) usuario);
+                            intent.putExtra("usuario", (Parcelable) usuario);
                             startActivity(intent);
 
                         }
@@ -99,12 +101,14 @@ public class MenuPrincipal extends AppCompatActivity {
                 setContentView(R.layout.activity_menu_principal_coordinador);
                 drawerLayout=findViewById(R.id.drawer_layout_coordinador);
                 actionBarDrawerToggle=new ActionBarDrawerToggle(this, drawerLayout,R.string.abrir_menu_deslizante,R.string.cerrar_menu_deslizante);
-
                 drawerLayout.addDrawerListener(actionBarDrawerToggle);
                 actionBarDrawerToggle.syncState();
                 getSupportActionBar().setTitle(R.string.menu_principal);
                 getSupportActionBar().setDisplayHomeAsUpEnabled(true);
                 NavigationView nav_view= findViewById(R.id.nav_view);
+                notificaciones= (TextView) MenuItemCompat.getActionView(nav_view.getMenu().findItem(R.id.nav_notificaciones));
+
+                initializeCountDrawer();
 
                 nav_view.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
                     @Override
@@ -118,37 +122,39 @@ public class MenuPrincipal extends AppCompatActivity {
                         }
                         else if (item.getItemId()==R.id.nav_micuenta) {
                             intent = new Intent(MenuPrincipal.this, EditarPerfilActivity.class);
-                            intent.putExtra(getString(R.string.usuario), (Parcelable) usuario);
+                            intent.putExtra("usuario", (Parcelable) usuario);
                             startActivity(intent);
                         }else if (item.getItemId()==R.id.nav_permisos) {
                             intent= new Intent(MenuPrincipal.this,PermisosActivity.class);
-                            intent.putExtra(getString(R.string.usuario), (Parcelable) usuario);
+                            intent.putExtra("usuario", (Parcelable) usuario);
                             startActivity(intent);
                         }
                         else if(item.getItemId()==R.id.nav_tareas){
                             intent = new Intent(MenuPrincipal.this,TareasAdministrativas.class);
-                            intent.putExtra(getString(R.string.usuario), (Parcelable) usuario);
+                            intent.putExtra("usuario", (Parcelable) usuario);
                             startActivity(intent);
                         } else if (item.getItemId()==R.id.nav_ausencias) {
                             intent = new Intent(MenuPrincipal.this,Ausencias.class);
-                            intent.putExtra(getString(R.string.usuario), (Parcelable) usuario);
+                            intent.putExtra("usuario", (Parcelable) usuario);
                             startActivity(intent);
                         }
                         else if(item.getItemId()==R.id.nav_notificaciones){
                             intent= new Intent(MenuPrincipal.this, Notificaciones.class);
+                            intent.putExtra("usuario", (Parcelable) usuario);
                             startActivity(intent);
                         }
                         else if (item.getItemId()==R.id.nav_horario) {
                             intent= new Intent(MenuPrincipal.this, Horario.class);
+                            intent.putExtra("usuario", (Parcelable) usuario);
                             startActivity(intent);
 
                         } else if (item.getItemId()==R.id.nav_reuniones) {
                             intent = new Intent(MenuPrincipal.this,Reuniones.class);
-                            intent.putExtra(getString(R.string.usuario), (Parcelable) usuario);
+                            intent.putExtra("usuario", (Parcelable) usuario);
                             startActivity(intent);
                         } else if (item.getItemId()==R.id.nav_avisos) {
                             intent = new Intent(MenuPrincipal.this,Avisos.class);
-                            intent.putExtra(getString(R.string.usuario), (Parcelable) usuario);
+                            intent.putExtra("usuario", (Parcelable) usuario);
                             startActivity(intent);
                         }
                         return true;
@@ -166,6 +172,9 @@ public class MenuPrincipal extends AppCompatActivity {
                 getSupportActionBar().setTitle(R.string.menu_principal);
                 getSupportActionBar().setDisplayHomeAsUpEnabled(true);
                 NavigationView nav_view= findViewById(R.id.nav_view);
+                notificaciones= (TextView) MenuItemCompat.getActionView(nav_view.getMenu().findItem(R.id.nav_notificaciones));
+                initializeCountDrawer();
+
                 nav_view.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
                     @Override
                     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -178,33 +187,35 @@ public class MenuPrincipal extends AppCompatActivity {
                         }
                         else if (item.getItemId()==R.id.nav_micuenta) {
                             intent = new Intent(MenuPrincipal.this, EditarPerfilActivity.class);
-                            intent.putExtra(getString(R.string.usuario), (Parcelable) usuario);
+                            intent.putExtra("usuario", (Parcelable) usuario);
                             startActivity(intent);
                         } else if (item.getItemId()==R.id.nav_permisos) {
                             intent= new Intent(MenuPrincipal.this,PermisosActivity.class);
-                            intent.putExtra(getString(R.string.usuario), (Parcelable) usuario);
+                            intent.putExtra("usuario", (Parcelable) usuario);
                             startActivity(intent);
                         }
                         else if(item.getItemId()==R.id.nav_tareas){
                             intent = new Intent(MenuPrincipal.this,TareasAdministrativas.class);
-                            intent.putExtra(getString(R.string.usuario), (Parcelable) usuario);
+                            intent.putExtra("usuario", (Parcelable) usuario);
                             startActivity(intent);
                         }
                      else if (item.getItemId()==R.id.nav_ausencias) {
                         intent = new Intent(MenuPrincipal.this,Ausencias.class);
-                        intent.putExtra(getString(R.string.usuario), (Parcelable) usuario);
+                        intent.putExtra("usuario", (Parcelable) usuario);
                         startActivity(intent);
                     }
                         else if(item.getItemId()==R.id.nav_notificaciones){
                             intent= new Intent(MenuPrincipal.this, Notificaciones.class);
+                            intent.putExtra("usuario", (Parcelable) usuario);
                             startActivity(intent);
                         } else if (item.getItemId()==R.id.nav_horario) {
                             intent= new Intent(MenuPrincipal.this, Horario.class);
+                            intent.putExtra("usuario", (Parcelable) usuario);
                             startActivity(intent);
 
                         }else if (item.getItemId()==R.id.nav_reuniones) {
                             intent = new Intent(MenuPrincipal.this,Reuniones.class);
-                            intent.putExtra(getString(R.string.usuario), (Parcelable) usuario);
+                            intent.putExtra("usuario", (Parcelable) usuario);
                             startActivity(intent);
                         }
                         return true;
@@ -220,12 +231,11 @@ public class MenuPrincipal extends AppCompatActivity {
         contador=0;
         ref.addValueEventListener(new ValueEventListener() {
 
-            Usuario usuario= getIntent().getParcelableExtra(getString(R.string.usuario));
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for(DataSnapshot d: snapshot.getChildren()){
                     Notificacion dummy= d.getValue(Notificacion.class);
-                    if(dummy.getUsuario().equals(usuario)){
+                    if(dummy.getUsuario().equals(usuario)&&!dummy.isVisto()){
                         contador++;
                     }
                 }

@@ -51,9 +51,16 @@ public class CambioPassword_2 extends AppCompatActivity implements View.OnClickL
                             if(usuario2.getCorreo().equals(usuario.getCorreo())){
                                 usuario.setPassword(pwd.getText().toString());
                                 d.getRef().setValue(usuario);
-                                Snackbar.make(v, getString(R.string.contraseñaCambiada),Snackbar.LENGTH_SHORT).show();
-                                Intent intent= new Intent(CambioPassword_2.this, LauncherActivity.class);
-                                startActivity(intent);
+                                Snackbar.make(v, getString(R.string.contraseñaCambiada),Snackbar.LENGTH_SHORT)
+                                        .setAction(getString(R.string.aceptar), new View.OnClickListener() {
+                                            @Override
+                                            public void onClick(View v) {
+                                                Intent intent= new Intent(CambioPassword_2.this, LauncherActivity.class);
+                                                startActivity(intent);
+                                            }
+                                        })
+                                        .show();
+
                             }
                         }
                     }
@@ -64,7 +71,8 @@ public class CambioPassword_2 extends AppCompatActivity implements View.OnClickL
                     }
                 });
             }else{
-                Snackbar.make(v,getString(R.string.contraseñaNoCoincide),Snackbar.LENGTH_SHORT).show();
+                Snackbar.make(v,getString(R.string.contraseñaNoCoincide),Snackbar.LENGTH_SHORT)
+                        .show();
             }
         }
     }

@@ -43,7 +43,7 @@ public class EditarPerfilActivity extends AppCompatActivity implements View.OnCl
         setContentView(R.layout.activity_editar_perfil);
         getSupportActionBar().setTitle(R.string.miCuenta);
         ref= FirebaseDatabase.getInstance().getReference(getString(R.string.usuario));
-        usuario= getIntent().getParcelableExtra(getString(R.string.usuario));
+        usuario= getIntent().getParcelableExtra("usuario");
         nombre= (EditText) findViewById(R.id.nombreRegistro);
         apellidos= (EditText) findViewById(R.id.apellidosRegistro);
         correo= (EditText) findViewById(R.id.correoRegistro);
@@ -88,7 +88,7 @@ public class EditarPerfilActivity extends AppCompatActivity implements View.OnCl
         if(rd2.getCheckedRadioButtonId()==R.id.radioButtonHombre){
             usuario.setSexo(getString(R.string.hombre));
         }
-        else{
+        else if(rd2.getCheckedRadioButtonId()==R.id.radioButtonMujer){
             usuario.setSexo(getString(R.string.mujer));
         }
         if(rd.getCheckedRadioButtonId()==R.id.radioButtonCoordinador){
@@ -97,7 +97,7 @@ public class EditarPerfilActivity extends AppCompatActivity implements View.OnCl
         else if(rd.getCheckedRadioButtonId()==R.id.radioButtonJefe){
             usuario.setPuesto(getString(R.string.jefe));
         }
-        else{
+        else if (rd.getCheckedRadioButtonId()==R.id.radioButtonDocente){
             usuario.setPuesto(getString(R.string.docente));
         }
 

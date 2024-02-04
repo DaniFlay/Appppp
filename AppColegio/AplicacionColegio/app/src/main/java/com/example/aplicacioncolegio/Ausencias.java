@@ -1,5 +1,6 @@
 package com.example.aplicacioncolegio;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.DatePickerDialog;
@@ -18,11 +19,17 @@ import android.widget.Spinner;
 import android.widget.TimePicker;
 
 import com.example.aplicacioncolegio.clases.Ausencia;
+import com.example.aplicacioncolegio.clases.Notificacion;
 import com.example.aplicacioncolegio.clases.Usuario;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 
 public class Ausencias extends AppCompatActivity implements View.OnClickListener, AdapterView.OnItemSelectedListener {
@@ -39,7 +46,7 @@ public class Ausencias extends AppCompatActivity implements View.OnClickListener
         setContentView(R.layout.activity_ausencias);
         getSupportActionBar().setTitle(R.string.ausencias);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        usuario = getIntent().getParcelableExtra(getString(R.string.usuario));
+        usuario = getIntent().getParcelableExtra("usuario");
         nombre= (EditText) findViewById(R.id.nombre);
         nombre.setText(usuario.getNombre());
         apellidos= (EditText)findViewById(R.id.apellidos);
@@ -142,6 +149,27 @@ public class Ausencias extends AppCompatActivity implements View.OnClickListener
                             intent.putExtra(getString(R.string.usuario),(Parcelable) usuario);
                             ref= FirebaseDatabase.getInstance().getReference().child(getString(R.string.ausencia));
                             ref.push().setValue(a);
+                            ref= FirebaseDatabase.getInstance().getReference(getString(R.string.usuario));
+                            ref.addValueEventListener(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                    for(DataSnapshot d: snapshot.getChildren()){
+                                        Usuario dummy= d.getValue(Usuario.class);
+                                        if(dummy.getPuesto().equals(getString(R.string.jefe))){
+                                            DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+                                            LocalDateTime now = LocalDateTime.now();
+                                            String date= dtf.format(now);
+                                            Notificacion notificacion= new Notificacion(usuario,dummy,getString(R.string.ausencia),a.getRazon(),date,false);
+                                            ref.push().setValue(notificacion);
+                                        }
+                                    }
+                                }
+
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError error) {
+
+                                }
+                            });
                             startActivity(intent);
                         }
                     }).show();

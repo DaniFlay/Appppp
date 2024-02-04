@@ -6,13 +6,14 @@ import android.os.Parcelable;
 import androidx.annotation.NonNull;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashSet;
 
 public class Mensaje implements Serializable, Parcelable {
-    private HashSet<Usuario> usuarios;
+    private ArrayList<Usuario> usuarios;
     private String mensaje;
 
-    public Mensaje(HashSet<Usuario> usuarios, String mensaje) {
+    public Mensaje(ArrayList<Usuario> usuarios, String mensaje) {
         this.usuarios = usuarios;
         this.mensaje = mensaje;
     }
@@ -21,6 +22,7 @@ public class Mensaje implements Serializable, Parcelable {
     }
 
     protected Mensaje(Parcel in) {
+        usuarios = in.createTypedArrayList(Usuario.CREATOR);
         mensaje = in.readString();
     }
 
@@ -36,11 +38,11 @@ public class Mensaje implements Serializable, Parcelable {
         }
     };
 
-    public HashSet<Usuario> getUsuarios() {
+    public ArrayList<Usuario> getUsuarios() {
         return usuarios;
     }
 
-    public void setUsuarios(HashSet<Usuario> usuarios) {
+    public void setUsuarios(ArrayList<Usuario> usuarios) {
         this.usuarios = usuarios;
     }
 
@@ -59,6 +61,7 @@ public class Mensaje implements Serializable, Parcelable {
 
     @Override
     public void writeToParcel(@NonNull Parcel dest, int flags) {
+        dest.writeTypedList(usuarios);
         dest.writeString(mensaje);
     }
 }

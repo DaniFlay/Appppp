@@ -7,15 +7,16 @@ import android.os.Parcelable;
 import androidx.annotation.NonNull;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashSet;
 
 public class Reunion implements Serializable, Parcelable {
-    private HashSet<Usuario> usuarios;
+    private ArrayList<Usuario> usuarios;
     private String fecha;
     private String horaInicio;
     private String Observaciones;
 
-    public Reunion(HashSet<Usuario> usuarios, String fecha, String horaInicio, String observaciones) {
+    public Reunion(ArrayList<Usuario> usuarios, String fecha, String horaInicio, String observaciones) {
         this.usuarios = usuarios;
         this.fecha = fecha;
         this.horaInicio = horaInicio;
@@ -26,6 +27,7 @@ public class Reunion implements Serializable, Parcelable {
     }
 
     protected Reunion(Parcel in) {
+        usuarios = in.createTypedArrayList(Usuario.CREATOR);
         fecha = in.readString();
         horaInicio = in.readString();
         Observaciones = in.readString();
@@ -43,11 +45,11 @@ public class Reunion implements Serializable, Parcelable {
         }
     };
 
-    public HashSet<Usuario> getUsuarios() {
+    public ArrayList<Usuario> getUsuarios() {
         return usuarios;
     }
 
-    public void setUsuarios(HashSet<Usuario> usuarios) {
+    public void setUsuarios(ArrayList<Usuario> usuarios) {
         this.usuarios = usuarios;
     }
 
@@ -82,6 +84,7 @@ public class Reunion implements Serializable, Parcelable {
 
     @Override
     public void writeToParcel(@NonNull Parcel dest, int flags) {
+        dest.writeTypedList(usuarios);
         dest.writeString(fecha);
         dest.writeString(horaInicio);
         dest.writeString(Observaciones);

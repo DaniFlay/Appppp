@@ -27,6 +27,7 @@ import com.google.firebase.database.ValueEventListener;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -44,7 +45,7 @@ public class Avisos extends AppCompatActivity implements View.OnClickListener{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_avisos);
-        usuario= getIntent().getParcelableExtra(getString(R.string.usuario));
+        usuario= getIntent().getParcelableExtra("usuario");
         añadir= findViewById(R.id.botonAñadir);
         enviar= findViewById(R.id.boton_enviar);
         part= findViewById(R.id.participantes);
@@ -61,7 +62,7 @@ public class Avisos extends AppCompatActivity implements View.OnClickListener{
                 for (DataSnapshot d: snapshot.getChildren()){
                     Usuario dummy= d.getValue(Usuario.class);
                     if(dummy.getCiclo()!=null) {
-                        if (dummy.getCiclo().equals(usuario.getCiclo()) && dummy.getPuesto().equals(getString(R.string.docente))) {
+                        if (dummy.getCiclo().getNombre().equals(usuario.getCiclo().getNombre()) && dummy.getPuesto().equals(getString(R.string.docente))) {
                             usuarios.add(dummy);
                         }
                     }
@@ -86,26 +87,35 @@ public class Avisos extends AppCompatActivity implements View.OnClickListener{
                 Usuario dummy = usuarios.get(i);
                 participantes[i]=dummy.getNombre()+" "+dummy.getApellidos();
             }
+            Log.d("setususu", Arrays.toString(participantes));
+            Log.d("listususu",usuarios.toString());
             builder.setMultiChoiceItems(participantes, checked, new DialogInterface.OnMultiChoiceClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which, boolean isChecked) {
                     if (isChecked){
-                        for(int i=0; i<usuarios.size();i++){
+
                             String[] nombreApellidos= participantes[which].split(" ");
                             if(nombreApellidos.length==3){
-                                if(usuarios.get(i).getNombre().equals(nombreApellidos[0])&& usuarios.get(i).getApellidos().equals(nombreApellidos[1]+" "+nombreApellidos[2])){
-                                    profesorado.add(usuarios.get(i));
+                                if(usuarios.get(which).getNombre().equals(nombreApellidos[0])&& usuarios.get(which).getApellidos().equals(nombreApellidos[1]+" "+nombreApellidos[2])|| usuarios.get(which).getNombre().equals(nombreApellidos[0]+" "+nombreApellidos[1])&& usuarios.get(which).getApellidos().equals(nombreApellidos[2])){
+                                    profesorado.add(usuarios.get(which));
+
+                                    checked[which]=true;
+
+                                }
+                            }
+                            else if(nombreApellidos.length==2){
+                                if(usuarios.get(which).getNombre().equals(nombreApellidos[0])&& usuarios.get(which).getApellidos().equals(nombreApellidos[1])){
+                                    profesorado.add(usuarios.get(which));
                                     checked[which]=true;
                                 }
                             }
-                            else{
-                                if(usuarios.get(i).getNombre().equals(nombreApellidos[0])&& usuarios.get(i).getApellidos().equals(nombreApellidos[1])){
-                                    profesorado.add(usuarios.get(i));
+                            else if(nombreApellidos.length==4){
+                                if(usuarios.get(which).getNombre().equals(nombreApellidos[0]+" "+nombreApellidos[1])&& usuarios.get(which).getApellidos().equals(nombreApellidos[2]+" "+nombreApellidos[3])){
+                                    profesorado.add(usuarios.get(which));
                                     checked[which]=true;
                                 }
                             }
 
-                        }
 
 
                     }
@@ -127,12 +137,15 @@ public class Avisos extends AppCompatActivity implements View.OnClickListener{
                         }
                     }
 
+
                 }
             });
             builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     usuariosAvisos= new ArrayList<>(profesorado);
+
+                    Log.d("usuarios",usuariosAvisos.toString());
                     String recibidores="[";
                     for(int i=0;i<usuariosAvisos.size()-1;i++){
                         recibidores+=usuariosAvisos.get(i).nombreApellidos()+",";
@@ -146,16 +159,16 @@ public class Avisos extends AppCompatActivity implements View.OnClickListener{
             dialog.show();
         }else{
             if(!profesorado.isEmpty()){
-                ref= FirebaseDatabase.getInstance().getReference("Notificaciones");
+                ref= FirebaseDatabase.getInstance().getReference(getString(R.string.notificacion));
                 DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy");
                 LocalDateTime now = LocalDateTime.now();
                 String fecha= dtf.format(now);
                 for(int i=0;i<usuariosAvisos.size();i++){
-                    Notificacion notificacion= new Notificacion(usuario,usuariosAvisos.get(i),"Aviso",mensaje.getText().toString(),fecha,false);
+                    Notificacion notificacion= new Notificacion(usuario,usuariosAvisos.get(i),getString(R.string.aviso),mensaje.getText().toString(),fecha,false);
                     ref.push().setValue(notificacion);
                 }
                 Aviso aviso= new Aviso(usuario,usuariosAvisos,mensaje.getText().toString());
-                ref=FirebaseDatabase.getInstance().getReference("Avisos");
+                ref=FirebaseDatabase.getInstance().getReference(getString(R.string.avisos));
                 ref.push().setValue(aviso);
             }
             Snackbar.make(v.getContext(),v,getString( R.string.sehaenviadoconexito),Snackbar.LENGTH_LONG)
