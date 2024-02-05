@@ -170,7 +170,7 @@ public class LauncherActivity extends AppCompatActivity implements View.OnClickL
             if(checkbox.isChecked()){
                 pwd.setInputType(InputType.TYPE_CLASS_TEXT);
             }
-            else{
+            else if (!checkbox.isChecked()){
                 pwd.setInputType(InputType.TYPE_TEXT_VARIATION_PASSWORD);
 
             }
