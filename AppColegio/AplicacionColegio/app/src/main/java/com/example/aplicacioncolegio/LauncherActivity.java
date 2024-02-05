@@ -10,11 +10,14 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.text.InputType;
+import android.text.method.HideReturnsTransformationMethod;
+import android.text.method.PasswordTransformationMethod;
 import android.util.Log;
 import android.view.ContextThemeWrapper;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -33,7 +36,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
-public class LauncherActivity extends AppCompatActivity implements View.OnClickListener, RadioGroup.OnCheckedChangeListener {
+public class LauncherActivity extends AppCompatActivity implements View.OnClickListener, RadioGroup.OnCheckedChangeListener, CompoundButton.OnCheckedChangeListener {
 
     Usuario dummy;
     DatabaseReference ref;
@@ -49,7 +52,7 @@ public class LauncherActivity extends AppCompatActivity implements View.OnClickL
          nombre= (EditText) findViewById(R.id.contentUsername);
          pwd= (EditText) findViewById(R.id.contentPassword);
         checkbox= findViewById(R.id.checkBox);
-        checkbox.setOnClickListener(this);
+        checkbox.setOnCheckedChangeListener(this);
         ref= FirebaseDatabase.getInstance().getReference(getString(R.string.modulos));
         ref.addValueEventListener(new ValueEventListener() {
             @Override
@@ -166,14 +169,6 @@ public class LauncherActivity extends AppCompatActivity implements View.OnClickL
         if(view.getId()==botonRegistro.getId()){
             Intent registro = new Intent(LauncherActivity.this, RegistroActivity.class);
             startActivity(registro);
-        }else if(view.getId()==checkbox.getId()){
-            if(checkbox.isChecked()){
-                pwd.setInputType(InputType.TYPE_CLASS_TEXT);
-            }
-            else if (!checkbox.isChecked()){
-                pwd.setInputType(InputType.TYPE_TEXT_VARIATION_PASSWORD);
-
-            }
         }
         else if(view.getId()==botonInicio.getId()){
 
@@ -234,5 +229,15 @@ public class LauncherActivity extends AppCompatActivity implements View.OnClickL
         Intent inicioSesion= new Intent(LauncherActivity.this,MenuPrincipal.class);
         inicioSesion.putExtra("usuario", (Parcelable) dummy);
         startActivity(inicioSesion);
+    }
+
+    @Override
+    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+        if(!isChecked){
+            pwd.setTransformationMethod(PasswordTransformationMethod.getInstance());
+        }
+        else{
+            pwd.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+        }
     }
 }
