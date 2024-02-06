@@ -1,68 +1,92 @@
 package com.example.aplicacioncolegio;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
+import com.example.aplicacioncolegio.clases.EncapsuladorPermisos;
 import com.example.aplicacioncolegio.clases.Permiso;
+import com.example.aplicacioncolegio.clases.Usuario;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+import com.google.android.material.snackbar.Snackbar;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class EstadosPermisosActivity extends AppCompatActivity implements AdapterView.OnItemClickListener {
-    ListView listView;
-    List<Permiso> permisos;
+public class EstadosPermisosActivity extends AppCompatActivity {
+    RecyclerView recyclerView;
+    List<EncapsuladorPermisos> permisos;
     Permiso p;
+    AdaptadorPermisos adapter;
+    RecyclerView.LayoutManager layoutManager;
+    DatabaseReference ref;
+    Usuario user;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_estados_permisos);
-
+        user = getIntent().getParcelableExtra("usuario");
+        permisos = new ArrayList<>();
         getSupportActionBar().setTitle(R.string.tusPermisos);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        recyclerView = findViewById(R.id.vistaGeneral);
+        ref = FirebaseDatabase.getInstance().getReference(getString(R.string.permiso));
+        ref.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot d : snapshot.getChildren()) {
+                    p = d.getValue(Permiso.class);
+                    int imagen = -1;
+                    if (p.getProfesor().getCorreo().equals(user.getCorreo())) {
+                        if (p.getEstado().equals(getString(R.string.rechazadoEstado))) {
+                            imagen = R.drawable.rechazado;
+                        } else if (p.getEstado().equals(getString(R.string.aceptadoEstado))) {
+                            imagen = R.drawable.aceptado;
+                        } else if (p.getEstado().equals(getString(R.string.pendienteEstado))) {
+                            imagen = R.drawable.pendiente;
+                        }
+
+                        permisos.add(new EncapsuladorPermisos(imagen, p.getRazon(), p.getEstado()));
+                    }
+                }
+            }
 
 
-        listView= findViewById(R.id.listaPermisos);
-        AdaptadorPermisos adaptadorPermisos = new AdaptadorPermisos(this, getData());
-        listView.setAdapter(adaptadorPermisos);
-        listView.setOnItemClickListener(this);
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
 
-    }
+            }
+        });
+        adapter = new AdaptadorPermisos(this, permisos, R.layout.item_permiso);
+        adapter.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int posicion = recyclerView.getChildAdapterPosition(v);
+                Snackbar.make(findViewById(R.id.vistaGeneral), "Estado del permiso: " + permisos.get(posicion).getEstado(), Snackbar.LENGTH_SHORT).show();
 
-    private List<Permiso> getData() {
-        String permiso=  getIntent().getStringExtra("permiso");
-        permisos= new ArrayList<Permiso>();
 
-        if(permiso!=null){
-            permisos.add(new Permiso());
-        }
-      /*  permisos.add(new Permiso("pendiente","Baja por paternidad"));
-        permisos.add(new Permiso("aprobado","Permiso por matrimonio de un familiar"));
-        permisos.add(new Permiso("rechazado","Permiso por fallecimiento de un familiar"));
-        permisos.add(new Permiso("rechazado","Reducción de jornada por guarda legal"));
-        permisos.add(new Permiso("pendiente","Baja por paternidad"));
-        permisos.add(new Permiso("aprobado","Permiso por matrimonio de un familiar"));
-        permisos.add(new Permiso("rechazado","Permiso por fallecimiento de un familiar"));
-        permisos.add(new Permiso("rechazado","Reducción de jornada por guarda legal"));
-        permisos.add(new Permiso("pendiente","Baja por paternidad"));
-        permisos.add(new Permiso("aprobado","Permiso por matrimonio de un familiar"));
-        permisos.add(new Permiso("rechazado","Permiso por fallecimiento de un familiar"));
-        permisos.add(new Permiso("rechazado","Reducción de jornada por guarda legal"));*/
-        return permisos;
-    }
+            }
+        });
+        recyclerView = findViewById(R.id.RecyclerViewPermisos);
+        recyclerView.setAdapter(adapter);
+        layoutManager = new LinearLayoutManager(this);
+        recyclerView.setLayoutManager(layoutManager);
 
-    @Override
-    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        Permiso p= permisos.get(position);
-        new MaterialAlertDialogBuilder(EstadosPermisosActivity.this)
-                //.setMessage("Permiso: "+p.getNombre()+"\nEstado:"+p.getEstado())
-                .setPositiveButton(R.string.ok,null)
-                .show();
+
     }
 }

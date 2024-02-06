@@ -155,7 +155,7 @@
     <string name="nombreIncompleto">El campo nombre no está completo</string>
     <string name="apellidoIncompleto">El campo apellidos no está completo</string>
     <string name="tusPermisos">Tus permisos</string>
-    <string name="permiso">permiso</string>
+    <string name="permiso">Permiso</string>
     <string name="sexoIncompleto">El campo sexo no está completo</string>
     <string name="puestoIncompleto">El campo puesto no está completo</string>
     <string name="contraseñaIncompleta">El campo contraseña no está completo</string>

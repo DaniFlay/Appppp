@@ -5,54 +5,70 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.aplicacioncolegio.clases.EncapsuladorPermisos;
 import com.example.aplicacioncolegio.clases.Permiso;
 
 import java.util.List;
 
-public class AdaptadorPermisos extends BaseAdapter {
+public class AdaptadorPermisos extends RecyclerView.Adapter<AdaptadorPermisos.ViewHolder> {
 
     Context context;
-    List<Permiso> permisos;
+    List<?> permisos;
+    int layout_id;
+    View.OnClickListener onClickListener;
 
-    public AdaptadorPermisos(Context context, List<Permiso> permisos) {
+    public void setOnClickListener(View.OnClickListener onClickListener){
+        this.onClickListener= onClickListener;
+    }
+
+    public AdaptadorPermisos(Context context, List<?> permisos, int layout_id) {
         this.context = context;
         this.permisos = permisos;
+        this.layout_id= layout_id;
     }
 
-    public AdaptadorPermisos() {
+
+
+    @NonNull
+    @Override
+    public AdaptadorPermisos.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View elemento= LayoutInflater.from(parent.getContext()).inflate(R.layout.item_permiso,parent,false);
+        elemento.setOnClickListener(onClickListener);
+        return new ViewHolder(elemento);
     }
 
     @Override
-    public int getCount() {
+    public void onBindViewHolder(@NonNull AdaptadorPermisos.ViewHolder holder, int position) {
+        EncapsuladorPermisos e= (EncapsuladorPermisos) permisos.get(position);
+        holder.representacionElementos(e);
+    }
+
+    @Override
+    public int getItemCount() {
         return permisos.size();
     }
+    public static class ViewHolder extends RecyclerView.ViewHolder{
+        public TextView razon, estado;
+        public ImageView imagen;
 
-    @Override
-    public Object getItem(int position) {
-        return position;
+        public ViewHolder(@NonNull View itemView) {
+            super(itemView);
+            razon= itemView.findViewById(R.id.razon);
+            estado= itemView.findViewById(R.id.estado);
+            imagen= itemView.findViewById(R.id.imagenPermiso);
+        }
+        public void representacionElementos(EncapsuladorPermisos e){
+            razon.setText(e.getRazon());
+            estado.setText(e.getEstado());
+            imagen.setImageResource(e.getImagen());
+        }
     }
 
-    @Override
-    public long getItemId(int position) {
-        return position;
-    }
 
-    @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-        TextView nombre;
-        TextView estado;
-        Permiso p= permisos.get(position);
-
-        if(convertView==null)
-            convertView= LayoutInflater.from(context).inflate(R.layout.permisos_list, null);
-        nombre= convertView.findViewById(R.id.permiso_nombre);
-        estado= convertView.findViewById(R.id.permiso_estado);
-
-       // nombre.setText(p.getNombre());
-        estado.setText(p.getEstado());
-
-        return convertView;
-    }
 }

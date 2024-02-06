@@ -45,8 +45,6 @@ public class EnviarMensaje extends AppCompatActivity implements View.OnClickList
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_enviar_mensaje);
-        texto= getIntent().getStringArrayExtra("texto");
-        botones= getIntent().getIntArrayExtra("botones");
         añadir= findViewById(R.id.botonAñadir);
         enviar= findViewById(R.id.boton_enviar);
         part= findViewById(R.id.participantes);
