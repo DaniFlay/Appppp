@@ -1,18 +1,17 @@
-package com.example.aplicacioncolegio;
+package com.example.aplicacioncolegio.adaptadores;
 
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.aplicacioncolegio.clases.EncapsuladorPermisos;
-import com.example.aplicacioncolegio.clases.Permiso;
+import com.example.aplicacioncolegio.R;
+import com.example.aplicacioncolegio.encapsuladores.EncapsuladorPermisos;
 
 import java.util.List;
 
@@ -38,7 +37,7 @@ public class AdaptadorPermisos extends RecyclerView.Adapter<AdaptadorPermisos.Vi
     @NonNull
     @Override
     public AdaptadorPermisos.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View elemento= LayoutInflater.from(parent.getContext()).inflate(R.layout.item_permiso,parent,false);
+        View elemento= LayoutInflater.from(parent.getContext()).inflate(R.layout.item_notificacion,parent,false);
         elemento.setOnClickListener(onClickListener);
         return new ViewHolder(elemento);
     }

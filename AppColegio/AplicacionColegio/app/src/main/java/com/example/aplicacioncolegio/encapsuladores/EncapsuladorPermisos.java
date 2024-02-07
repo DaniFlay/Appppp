@@ -1,4 +1,4 @@
-package com.example.aplicacioncolegio.clases;
+package com.example.aplicacioncolegio.encapsuladores;
 
 public class EncapsuladorPermisos {
     int imagen;

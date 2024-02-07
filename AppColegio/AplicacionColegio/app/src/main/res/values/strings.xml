@@ -280,4 +280,5 @@
     </string-array>
     <string name="informe">Informe</string>
     <string name="mostrarContraseña">Mostrar contraseña</string>
+    <string name="marcarLeido">Marcar como leído</string>
 </resources>
