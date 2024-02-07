@@ -7,6 +7,7 @@ import androidx.annotation.NonNull;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.Objects;
 
 public class Notificacion implements Serializable, Parcelable {
     private Usuario emisor;
@@ -26,6 +27,19 @@ public class Notificacion implements Serializable, Parcelable {
     }
 
     public Notificacion() {
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Notificacion)) return false;
+        Notificacion that = (Notificacion) o;
+        return isVisto() == that.isVisto() && getEmisor().getCorreo().equals(that.getEmisor().getCorreo()) && getUsuario().getCorreo().equals(that.getUsuario().getCorreo()) && Objects.equals(getName(), that.getName()) && Objects.equals(getDescripcion(), that.getDescripcion()) && Objects.equals(getFecha(), that.getFecha());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getEmisor(), getUsuario(), getName(), getDescripcion(), getFecha(), isVisto());
     }
 
     protected Notificacion(Parcel in) {
@@ -110,5 +124,17 @@ public class Notificacion implements Serializable, Parcelable {
 
     public void setVisto(boolean visto) {
         this.visto = visto;
+    }
+
+    @Override
+    public String toString() {
+        return "Notificacion{" +
+                "emisor=" + emisor +
+                ", usuario=" + usuario +
+                ", name='" + name + '\'' +
+                ", descripcion='" + descripcion + '\'' +
+                ", fecha='" + fecha + '\'' +
+                ", visto=" + visto +
+                '}';
     }
 }

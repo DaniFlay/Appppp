@@ -1,4 +1,4 @@
-package com.example.aplicacioncolegio.clases;
+package com.example.aplicacioncolegio.extras;
 
 public class Utils {
     //datos del correo

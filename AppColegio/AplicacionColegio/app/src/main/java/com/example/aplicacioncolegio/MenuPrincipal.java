@@ -10,6 +10,7 @@ import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Parcelable;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.widget.TextView;
@@ -36,6 +37,27 @@ public class MenuPrincipal extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         usuario= getIntent().getParcelableExtra("usuario");
+        ref= FirebaseDatabase.getInstance().getReference(getString(R.string.notificacion));
+        contador=0;
+        ref.addValueEventListener(new ValueEventListener() {
+
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for(DataSnapshot d: snapshot.getChildren()){
+                    Notificacion dummy= d.getValue(Notificacion.class);
+                    Log.d("notificacion",dummy.toString());
+                    if(dummy.getUsuario().getCorreo().equals(usuario.getCorreo())&&dummy.isVisto()==false){
+                        contador++;
+                        Log.d("contador",contador+"");
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
             if(usuario.getPuesto().equals(getString(R.string.jefe))){
                 setContentView(R.layout.activity_menu_principal_jefe);
                 NavigationView nav_view= findViewById(R.id.nav_view);
@@ -46,7 +68,7 @@ public class MenuPrincipal extends AppCompatActivity {
                 actionBarDrawerToggle.syncState();
                 getSupportActionBar().setDisplayHomeAsUpEnabled(true);
                 getSupportActionBar().setTitle(R.string.menu_principal);
-                initializeCountDrawer();
+                initializeCountDrawer(contador);
 
 
                 nav_view.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
@@ -108,7 +130,7 @@ public class MenuPrincipal extends AppCompatActivity {
                 NavigationView nav_view= findViewById(R.id.nav_view);
                 notificaciones= (TextView) MenuItemCompat.getActionView(nav_view.getMenu().findItem(R.id.nav_notificaciones));
 
-                initializeCountDrawer();
+                initializeCountDrawer(contador);
 
                 nav_view.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
                     @Override
@@ -173,7 +195,7 @@ public class MenuPrincipal extends AppCompatActivity {
                 getSupportActionBar().setDisplayHomeAsUpEnabled(true);
                 NavigationView nav_view= findViewById(R.id.nav_view);
                 notificaciones= (TextView) MenuItemCompat.getActionView(nav_view.getMenu().findItem(R.id.nav_notificaciones));
-                initializeCountDrawer();
+                initializeCountDrawer(contador);
 
                 nav_view.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
                     @Override
@@ -226,26 +248,7 @@ public class MenuPrincipal extends AppCompatActivity {
         }
 
 
-    private void initializeCountDrawer(){
-        ref= FirebaseDatabase.getInstance().getReference(getString(R.string.notificaciones));
-        contador=0;
-        ref.addValueEventListener(new ValueEventListener() {
-
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for(DataSnapshot d: snapshot.getChildren()){
-                    Notificacion dummy= d.getValue(Notificacion.class);
-                    if(dummy.getUsuario().equals(usuario)&&!dummy.isVisto()){
-                        contador++;
-                    }
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
+    private void initializeCountDrawer(int contador){
         notificaciones.setGravity(Gravity.CENTER_VERTICAL);
         notificaciones.setTypeface(null, Typeface.BOLD);
         notificaciones.setTextColor(getResources().getColor(R.color.RED));

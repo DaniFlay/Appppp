@@ -2,21 +2,17 @@ package com.example.aplicacioncolegio;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ListView;
 
-import com.example.aplicacioncolegio.clases.EncapsuladorPermisos;
+import com.example.aplicacioncolegio.adaptadores.AdaptadorPermisos;
+import com.example.aplicacioncolegio.encapsuladores.EncapsuladorPermisos;
 import com.example.aplicacioncolegio.clases.Permiso;
 import com.example.aplicacioncolegio.clases.Usuario;
-import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -44,7 +40,6 @@ public class EstadosPermisosActivity extends AppCompatActivity {
         permisos = new ArrayList<>();
         getSupportActionBar().setTitle(R.string.tusPermisos);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        recyclerView = findViewById(R.id.vistaGeneral);
         ref = FirebaseDatabase.getInstance().getReference(getString(R.string.permiso));
         ref.addValueEventListener(new ValueEventListener() {
             @Override
