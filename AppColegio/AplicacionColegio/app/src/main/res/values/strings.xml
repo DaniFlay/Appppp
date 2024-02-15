@@ -281,4 +281,6 @@
     <string name="informe">Informe</string>
     <string name="mostrarContraseña">Mostrar contraseña</string>
     <string name="marcarLeido">Marcar como leído</string>
+    <string name="usuPassNoCorrectos">El usuario o contraseña no son correctos</string>
+    <string name="salir">Salir</string>
 </resources>

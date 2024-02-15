@@ -14,18 +14,18 @@ import com.example.aplicacioncolegio.R;
 import com.example.aplicacioncolegio.encapsuladores.EncapsuladorNotificaciones;
 
 
-import java.util.List;
+import java.util.ArrayList;
 
 public class AdaptadorNotificaciones extends RecyclerView.Adapter<AdaptadorNotificaciones.ViewHolder> {
     Context context;
-    List<?> lista;
+    ArrayList<?> lista;
     int layout_id;
     View.OnClickListener onClickListener;
     public void setOnClickListener(View.OnClickListener onClickListener){
         this.onClickListener= onClickListener;
     }
 
-    public AdaptadorNotificaciones(Context context, List<?> lista, int layout_id) {
+    public AdaptadorNotificaciones(Context context, ArrayList<EncapsuladorNotificaciones> lista, int layout_id) {
         this.context = context;
         this.lista = lista;
         this.layout_id = layout_id;

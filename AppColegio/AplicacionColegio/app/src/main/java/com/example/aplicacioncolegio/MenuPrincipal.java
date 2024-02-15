@@ -15,8 +15,10 @@ import android.view.Gravity;
 import android.view.MenuItem;
 import android.widget.TextView;
 
+import com.example.aplicacioncolegio.clases.Clase;
 import com.example.aplicacioncolegio.clases.Notificacion;
 import com.example.aplicacioncolegio.clases.Usuario;
+import com.example.aplicacioncolegio.encapsuladores.EncapsuladorNotificaciones;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -24,31 +26,52 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
+
 public class MenuPrincipal extends AppCompatActivity {
 
     public DrawerLayout drawerLayout;
     public ActionBarDrawerToggle actionBarDrawerToggle;
-    public TextView notificaciones;
     DatabaseReference ref;
-    public int contador;
+    ArrayList<EncapsuladorNotificaciones> nots;
+    ArrayList<Notificacion> notifs;
     Usuario usuario;
+    ArrayList<Clase> clases, clasesUsuario;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        nots= new ArrayList<>();
+        notifs= new ArrayList<>();
         usuario= getIntent().getParcelableExtra("usuario");
-        ref= FirebaseDatabase.getInstance().getReference(getString(R.string.notificacion));
-        contador=0;
+        ref= FirebaseDatabase.getInstance().getReference("Clase");
+        clases= new ArrayList<>();
+        clasesUsuario= new ArrayList<>();
+        Log.d("QQQQQQQQQQ",usuario.getModulos().size()+"");
         ref.addValueEventListener(new ValueEventListener() {
-
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for(DataSnapshot d: snapshot.getChildren()){
+                    Clase c= d.getValue(Clase.class);
+                    clases.add(c);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+        ref= FirebaseDatabase.getInstance().getReference(getString(R.string.notificacion));
+        ref.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for(DataSnapshot d:snapshot.getChildren()){
                     Notificacion dummy= d.getValue(Notificacion.class);
-                    Log.d("notificacion",dummy.toString());
-                    if(dummy.getUsuario().getCorreo().equals(usuario.getCorreo())&&dummy.isVisto()==false){
-                        contador++;
-                        Log.d("contador",contador+"");
+                    if(dummy.getUsuario().getCorreo().equals(usuario.getCorreo())&&!dummy.isVisto()){
+                        nots.add(new EncapsuladorNotificaciones(R.drawable.notification,dummy.getName(),dummy.getFecha(),dummy.getDescripcion()));
+                        notifs.add(dummy);
                     }
                 }
             }
@@ -62,13 +85,11 @@ public class MenuPrincipal extends AppCompatActivity {
                 setContentView(R.layout.activity_menu_principal_jefe);
                 NavigationView nav_view= findViewById(R.id.nav_view);
                 drawerLayout=findViewById(R.id.drawer_layout_jefe);
-                notificaciones= (TextView) MenuItemCompat.getActionView(nav_view.getMenu().findItem(R.id.nav_notificaciones));
                 actionBarDrawerToggle=new ActionBarDrawerToggle(this, drawerLayout,R.string.abrir_menu_deslizante,R.string.cerrar_menu_deslizante);
                 drawerLayout.addDrawerListener(actionBarDrawerToggle);
                 actionBarDrawerToggle.syncState();
                 getSupportActionBar().setDisplayHomeAsUpEnabled(true);
                 getSupportActionBar().setTitle(R.string.menu_principal);
-                initializeCountDrawer(contador);
 
 
                 nav_view.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
@@ -89,6 +110,8 @@ public class MenuPrincipal extends AppCompatActivity {
                         else if(item.getItemId()==R.id.nav_notificaciones){
                             intent= new Intent(MenuPrincipal.this, Notificaciones.class);
                             intent.putExtra("usuario", (Parcelable) usuario);
+                            intent.putParcelableArrayListExtra("listaEnc",nots);
+                            intent.putExtra("lista",notifs);
                             startActivity(intent);
                         }
                         else if (item.getItemId()==R.id.nav_horario) {
@@ -128,9 +151,7 @@ public class MenuPrincipal extends AppCompatActivity {
                 getSupportActionBar().setTitle(R.string.menu_principal);
                 getSupportActionBar().setDisplayHomeAsUpEnabled(true);
                 NavigationView nav_view= findViewById(R.id.nav_view);
-                notificaciones= (TextView) MenuItemCompat.getActionView(nav_view.getMenu().findItem(R.id.nav_notificaciones));
 
-                initializeCountDrawer(contador);
 
                 nav_view.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
                     @Override
@@ -163,6 +184,8 @@ public class MenuPrincipal extends AppCompatActivity {
                         else if(item.getItemId()==R.id.nav_notificaciones){
                             intent= new Intent(MenuPrincipal.this, Notificaciones.class);
                             intent.putExtra("usuario", (Parcelable) usuario);
+                            intent.putParcelableArrayListExtra("listaEnc",nots);
+                            intent.putExtra("lista",notifs);
                             startActivity(intent);
                         }
                         else if (item.getItemId()==R.id.nav_horario) {
@@ -194,8 +217,6 @@ public class MenuPrincipal extends AppCompatActivity {
                 getSupportActionBar().setTitle(R.string.menu_principal);
                 getSupportActionBar().setDisplayHomeAsUpEnabled(true);
                 NavigationView nav_view= findViewById(R.id.nav_view);
-                notificaciones= (TextView) MenuItemCompat.getActionView(nav_view.getMenu().findItem(R.id.nav_notificaciones));
-                initializeCountDrawer(contador);
 
                 nav_view.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
                     @Override
@@ -229,9 +250,12 @@ public class MenuPrincipal extends AppCompatActivity {
                         else if(item.getItemId()==R.id.nav_notificaciones){
                             intent= new Intent(MenuPrincipal.this, Notificaciones.class);
                             intent.putExtra("usuario", (Parcelable) usuario);
+                            intent.putParcelableArrayListExtra("listaEnc",nots);
+                            intent.putExtra("lista",notifs);
                             startActivity(intent);
                         } else if (item.getItemId()==R.id.nav_horario) {
                             intent= new Intent(MenuPrincipal.this, Horario.class);
+                            intent.putParcelableArrayListExtra("clases",clases);
                             intent.putExtra("usuario", (Parcelable) usuario);
                             startActivity(intent);
 
@@ -248,14 +272,6 @@ public class MenuPrincipal extends AppCompatActivity {
         }
 
 
-    private void initializeCountDrawer(int contador){
-        notificaciones.setGravity(Gravity.CENTER_VERTICAL);
-        notificaciones.setTypeface(null, Typeface.BOLD);
-        notificaciones.setTextColor(getResources().getColor(R.color.RED));
-        notificaciones.setText(String.valueOf(contador));
-        notificaciones.setGravity(Gravity.CENTER_VERTICAL);
-        notificaciones.setTypeface(null,Typeface.BOLD);
-    }
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if(actionBarDrawerToggle.onOptionsItemSelected(item)) {

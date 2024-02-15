@@ -139,7 +139,7 @@ public class EditarPerfilActivity extends AppCompatActivity implements View.OnCl
 
             Intent intent;
             intent= new Intent(EditarPerfilActivity.this, MenuPrincipal.class);
-            intent.putExtra(getString(R.string.usuario), (Parcelable) usuario);
+            intent.putExtra("usuario", (Parcelable) usuario);
             startActivity(intent);
         }
     }
