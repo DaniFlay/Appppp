@@ -36,7 +36,7 @@ public class InformeGuardia extends AppCompatActivity implements View.OnClickLis
     Button  botonGuardar;
     ImageButton botonFecha, botonParticipantes;
     TextView fechaTexto;
-    EditText observaciones;
+    EditText observaciones, part;
     Usuario usuario, usuarioAviso;
     ArrayList<Usuario> usuarios;
     DatabaseReference ref;
@@ -49,7 +49,9 @@ public class InformeGuardia extends AppCompatActivity implements View.OnClickLis
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_informe_guardia);
         usuario= getIntent().getParcelableExtra("usuario");
+        usuarios= new ArrayList<>();
         observaciones= findViewById(R.id.observaciones);
+        part= findViewById(R.id.nombre);
         fechaTexto= findViewById(R.id.fecha);
         botonParticipantes= findViewById(R.id.botonAñadir);
         botonFecha= findViewById(R.id.botonFecha);
@@ -57,7 +59,7 @@ public class InformeGuardia extends AppCompatActivity implements View.OnClickLis
         botonParticipantes.setOnClickListener(this);
         botonFecha.setOnClickListener(this);
         botonGuardar.setOnClickListener(this);
-        ref= FirebaseDatabase.getInstance().getReference("usuario");
+        ref= FirebaseDatabase.getInstance().getReference("Usuario");
         ref.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -110,6 +112,13 @@ public class InformeGuardia extends AppCompatActivity implements View.OnClickLis
                     }
                 }
             });
+            builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    part.setText(usuarioAviso.getNombre()+" "+usuarioAviso.getApellidos());
+                }
+            });
+            builder.show();
 
         } else{
             DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy");

@@ -16,7 +16,9 @@ import android.view.MenuItem;
 import android.widget.TextView;
 
 import com.example.aplicacioncolegio.clases.Clase;
+import com.example.aplicacioncolegio.clases.Modulo;
 import com.example.aplicacioncolegio.clases.Notificacion;
+import com.example.aplicacioncolegio.clases.Tarea;
 import com.example.aplicacioncolegio.clases.Usuario;
 import com.example.aplicacioncolegio.encapsuladores.EncapsuladorNotificaciones;
 import com.google.android.material.navigation.NavigationView;
@@ -37,18 +39,21 @@ public class MenuPrincipal extends AppCompatActivity {
     ArrayList<Notificacion> notifs;
     Usuario usuario;
     ArrayList<Clase> clases, clasesUsuario;
+    ArrayList<Tarea> tareas;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        tareas= new ArrayList<>();
         nots= new ArrayList<>();
         notifs= new ArrayList<>();
         usuario= getIntent().getParcelableExtra("usuario");
         ref= FirebaseDatabase.getInstance().getReference("Clase");
         clases= new ArrayList<>();
         clasesUsuario= new ArrayList<>();
-        Log.d("QQQQQQQQQQ",usuario.getModulos().size()+"");
-        ref.addValueEventListener(new ValueEventListener() {
+
+       ref.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for(DataSnapshot d: snapshot.getChildren()){
@@ -63,16 +68,35 @@ public class MenuPrincipal extends AppCompatActivity {
             }
         });
 
+        ref= FirebaseDatabase.getInstance().getReference("Tarea Administrativa");
+        ref.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for(DataSnapshot d: snapshot.getChildren()){
+                    Tarea t= d.getValue(Tarea.class);
+                    if(t.getUsuario().getCorreo().equals(usuario.getCorreo())&&!t.isCompletado()){
+                        tareas.add(t);
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
         ref= FirebaseDatabase.getInstance().getReference(getString(R.string.notificacion));
         ref.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for(DataSnapshot d:snapshot.getChildren()){
                     Notificacion dummy= d.getValue(Notificacion.class);
+                    Log.d("notificacion",dummy.toString());
                     if(dummy.getUsuario().getCorreo().equals(usuario.getCorreo())&&!dummy.isVisto()){
                         nots.add(new EncapsuladorNotificaciones(R.drawable.notification,dummy.getName(),dummy.getFecha(),dummy.getDescripcion()));
                         notifs.add(dummy);
                     }
+
                 }
             }
 
@@ -116,6 +140,7 @@ public class MenuPrincipal extends AppCompatActivity {
                         }
                         else if (item.getItemId()==R.id.nav_horario) {
                             intent= new Intent(MenuPrincipal.this, Horario.class);
+                            intent.putParcelableArrayListExtra("clases",clases);
                             intent.putExtra("usuario", (Parcelable) usuario);
                             startActivity(intent);
 
@@ -175,6 +200,7 @@ public class MenuPrincipal extends AppCompatActivity {
                         else if(item.getItemId()==R.id.nav_tareas){
                             intent = new Intent(MenuPrincipal.this,TareasAdministrativas.class);
                             intent.putExtra("usuario", (Parcelable) usuario);
+                            intent.putParcelableArrayListExtra("tareas",tareas);
                             startActivity(intent);
                         } else if (item.getItemId()==R.id.nav_ausencias) {
                             intent = new Intent(MenuPrincipal.this,Ausencias.class);
@@ -190,6 +216,7 @@ public class MenuPrincipal extends AppCompatActivity {
                         }
                         else if (item.getItemId()==R.id.nav_horario) {
                             intent= new Intent(MenuPrincipal.this, Horario.class);
+                            intent.putParcelableArrayListExtra("clases",clases);
                             intent.putExtra("usuario", (Parcelable) usuario);
                             startActivity(intent);
 
@@ -240,6 +267,7 @@ public class MenuPrincipal extends AppCompatActivity {
                         else if(item.getItemId()==R.id.nav_tareas){
                             intent = new Intent(MenuPrincipal.this,TareasAdministrativas.class);
                             intent.putExtra("usuario", (Parcelable) usuario);
+                            intent.putParcelableArrayListExtra("tareas",tareas);
                             startActivity(intent);
                         }
                      else if (item.getItemId()==R.id.nav_ausencias) {

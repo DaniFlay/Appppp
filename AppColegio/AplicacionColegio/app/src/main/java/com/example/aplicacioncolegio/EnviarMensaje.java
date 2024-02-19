@@ -36,8 +36,6 @@ public class EnviarMensaje extends AppCompatActivity implements View.OnClickList
     EditText part, asunto, mensaje;
     HashSet<Usuario> profesorado= new HashSet<Usuario>();
     boolean[] checked;
-    int[] botones;
-    String[] texto;
     Usuario usuario;
     DatabaseReference ref;
     ArrayList<Usuario> usuarios,usuariosAvisos;
@@ -52,6 +50,7 @@ public class EnviarMensaje extends AppCompatActivity implements View.OnClickList
         mensaje= findViewById(R.id.mensaje);
         añadir.setOnClickListener(this);
         enviar.setOnClickListener(this);
+        usuarios= new ArrayList<>();
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle(R.string.Mensaje);
         usuario= getIntent().getParcelableExtra("usuario");
@@ -149,7 +148,7 @@ public class EnviarMensaje extends AppCompatActivity implements View.OnClickList
                 ref.push().setValue(notificacion);
             }
             Mensaje m= new Mensaje(usuariosAvisos,mensaje.getText().toString());
-            ref=FirebaseDatabase.getInstance().getReference(getString(R.string.avisos));
+            ref=FirebaseDatabase.getInstance().getReference("Mensaje");
             ref.push().setValue(m);
             Snackbar.make(v, R.string.sehaenviadoconexito,Snackbar.LENGTH_LONG)
                     .setAction(R.string.aceptar, new View.OnClickListener() {

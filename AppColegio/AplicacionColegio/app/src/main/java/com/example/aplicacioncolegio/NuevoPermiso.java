@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -38,6 +39,23 @@ public class NuevoPermiso extends AppCompatActivity implements  View.OnClickList
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_nuevo_permiso);
         usuario= getIntent().getParcelableExtra("usuario");
+        ref= FirebaseDatabase.getInstance().getReference(getString(R.string.usuario));
+        ref.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for(DataSnapshot d: snapshot.getChildren()){
+                    Usuario u= d.getValue(Usuario.class);
+                    if(u.getPuesto().equals(getString(R.string.jefe))){
+                        jefe= u;
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
         sp2 = (Spinner) findViewById(R.id.spinner_tipo_permiso);
         sp1 = (Spinner) findViewById(R.id.spinner_razon_permiso);
         sp2.setEnabled(false);
@@ -99,45 +117,23 @@ public class NuevoPermiso extends AppCompatActivity implements  View.OnClickList
 
     @Override
     public void onClick(View v) {
-        p.setEstado(getString(R.string.pendienteEstado));
+        p.setEstado("pendiente");
         p.setProfesor(usuario);
         p.setTipoPermiso(sp2.getSelectedItem().toString());
         p.setRazon(sp1.getSelectedItem().toString());
         ref= FirebaseDatabase.getInstance().getReference(getString(R.string.permiso));
-        ref.push().setValue(permiso);
-        ref= FirebaseDatabase.getInstance().getReference(getString(R.string.usuario));
-        ref.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for(DataSnapshot d: snapshot.getChildren()){
-                    Usuario u= d.getValue(Usuario.class);
-                    if(u.getPuesto().equals(getString(R.string.jefe))){
-                        jefe= u;
-                    }
-                }
-            }
+        ref.push().setValue(p);
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
         ref= FirebaseDatabase.getInstance().getReference(getString(R.string.notificacion));
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         LocalDateTime now = LocalDateTime.now();
         String fecha= dtf.format(now);
         Notificacion notificacion= new Notificacion(usuario,jefe,getString(R.string.permiso),p.getTipoPermiso(),fecha,false);
         ref.push().setValue(notificacion);
-        if (!sp2.isActivated()) {
-            new MaterialAlertDialogBuilder(NuevoPermiso.this)
-                    .setMessage(R.string.rellenarPermiso)
-                    .setPositiveButton(R.string.ok, null)
-                    .show();
-        } else  {
-            Intent intent = new Intent(NuevoPermiso.this, EstadosPermisosActivity.class);
-            intent.putExtra("permiso", permiso);
-            startActivity(intent);
+        Intent intent = new Intent(NuevoPermiso.this, PermisosActivity.class);
+        intent.putExtra("usuario",(Parcelable) usuario);
+        startActivity(intent);
 
-        }
+
     }
 }

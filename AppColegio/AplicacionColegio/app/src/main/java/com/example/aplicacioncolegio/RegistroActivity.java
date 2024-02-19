@@ -33,7 +33,7 @@ public class RegistroActivity extends AppCompatActivity implements View.OnClickL
     private Usuario u;
     RadioButton r1,r2;
     DatabaseReference ref;
-    ArrayList<Modulo> modulos;
+    ArrayList<Modulo> modulos, modulos2;
     boolean existe;
 
     @Override
@@ -44,6 +44,11 @@ public class RegistroActivity extends AppCompatActivity implements View.OnClickL
         rd= findViewById(R.id.radioGroupPuestos);
         rd2= findViewById(R.id.radioGroupSexo);
         modulos= new ArrayList<>();
+        modulos2= new ArrayList<>();
+        Modulo m1 =new Modulo("Programacion", "Desarrollo de aplicaciones multiplataforma", 1);
+        Modulo m2= new Modulo("Lenguaje de marcas", "Desarrollo de aplicaciones multiplataforma",1);
+        modulos2.add(m1);
+        modulos2.add(m2);
         ref=FirebaseDatabase.getInstance().getReference(getString(R.string.modulos));
         ref.addValueEventListener(new ValueEventListener() {
             @Override
@@ -176,11 +181,11 @@ public class RegistroActivity extends AppCompatActivity implements View.OnClickL
 
 
             Ciclo ciclo=new Ciclo("Desarrollo de Aplicaciones Multiplataforma",modulos);
-            u= new Usuario(nombre, apellidos, correo, r1.getText().toString(), r2.getText().toString(), contraseña,false,ciclo,modulos);
+            u= new Usuario(nombre, apellidos, correo, r1.getText().toString(), r2.getText().toString(), contraseña,false,ciclo,modulos2);
             ref= FirebaseDatabase.getInstance().getReference("Usuario");
             ref.push().setValue(u);
-            intent = new Intent(RegistroActivity.this, MenuPrincipal.class);
-            intent.putExtra(getString(R.string.usuario), (Parcelable) u);
+            intent = new Intent(RegistroActivity.this, LauncherActivity.class);
+            intent.putExtra("usuario", (Parcelable) u);
             startActivity(intent);
         }
     }

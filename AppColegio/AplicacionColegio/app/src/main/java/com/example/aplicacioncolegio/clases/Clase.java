@@ -6,6 +6,7 @@ import android.os.Parcelable;
 import androidx.annotation.NonNull;
 
 import java.io.Serializable;
+import java.util.Comparator;
 
 public class Clase implements Serializable, Parcelable {
     int id;
@@ -17,6 +18,14 @@ public class Clase implements Serializable, Parcelable {
     }
 
     public Clase() {
+    }
+
+    @Override
+    public String toString() {
+        return "Clase{" +
+                "id=" + id +
+                ", modulo=" + modulo +
+                '}';
     }
 
     protected Clase(Parcel in) {
@@ -62,4 +71,7 @@ public class Clase implements Serializable, Parcelable {
         dest.writeInt(id);
         dest.writeParcelable(modulo, flags);
     }
+
+
+
 }

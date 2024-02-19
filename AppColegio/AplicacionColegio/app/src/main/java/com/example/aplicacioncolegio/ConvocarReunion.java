@@ -9,6 +9,7 @@ import android.app.TimePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -39,8 +40,6 @@ public class ConvocarReunion extends AppCompatActivity implements View.OnClickLi
     ImageButton añadir, bFecha, bHora;
     HashSet<Usuario> profesorado= new HashSet<Usuario>();
     boolean[] checked ;
-    String[] texto;
-    int[] botones;
     Usuario usuario;
     DatabaseReference ref;
     ArrayList<Usuario> usuarios;
@@ -50,8 +49,6 @@ public class ConvocarReunion extends AppCompatActivity implements View.OnClickLi
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_convocar_reunion);
-        texto= getIntent().getStringArrayExtra("texto");
-        botones = getIntent().getIntArrayExtra("botones");
         usuario= getIntent().getParcelableExtra("usuario");
         participantess= findViewById(R.id.participantes);
         fecha= findViewById(R.id.fecha);
@@ -182,12 +179,15 @@ public class ConvocarReunion extends AppCompatActivity implements View.OnClickLi
             dialog.show();
         }
         else{
-            ref= FirebaseDatabase.getInstance().getReference(getString(R.string.reuniones));
+            ref= FirebaseDatabase.getInstance().getReference("Reunion");
             DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy");
             LocalDateTime now = LocalDateTime.now();
             String date= dtf.format(now);
-            Reunion reunion= new Reunion(usuariosAvisos,date,horaa.getText().toString(),observaciones.getText().toString());
-            ref.push().setValue(reunion);
+            for(Usuario u:usuariosAvisos){
+                Reunion reunion= new Reunion(u,date,horaa.getText().toString(),observaciones.getText().toString(),"pendiente");
+                ref.push().setValue(reunion);
+            }
+
             ref= FirebaseDatabase.getInstance().getReference(getString(R.string.notificacion));
             for(Usuario u:usuariosAvisos){
                 Notificacion notificacion = new Notificacion(usuario, u,getString(R.string.reunion),observaciones.getText().toString(),date,false);
@@ -202,8 +202,7 @@ public class ConvocarReunion extends AppCompatActivity implements View.OnClickLi
                             horaa.setText("");
                             observaciones.setText("");
                             Intent intent = new Intent(ConvocarReunion.this,Reuniones.class);
-                            intent.putExtra("texto",texto);
-                            intent.putExtra("botones",botones);
+                            intent.putExtra("usuario",(Parcelable) usuario);
                             startActivity(intent);
                         }
                     })

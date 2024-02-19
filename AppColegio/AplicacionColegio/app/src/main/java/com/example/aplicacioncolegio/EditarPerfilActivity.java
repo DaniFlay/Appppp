@@ -3,8 +3,10 @@ package com.example.aplicacioncolegio;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.ContentValues;
 import android.content.Intent;
 import android.content.res.ColorStateList;
+import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Parcelable;
@@ -15,6 +17,7 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
 import com.example.aplicacioncolegio.clases.Usuario;
+import com.example.aplicacioncolegio.extras.Helper;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -35,12 +38,15 @@ public class EditarPerfilActivity extends AppCompatActivity implements View.OnCl
     RadioButton puesto;
     RadioButton sexo;
     DatabaseReference ref;
+    SQLiteDatabase db;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_editar_perfil);
+        Helper helper= new Helper(this, "bbddusuario",null, 1);
+        db= helper.getWritableDatabase();
         getSupportActionBar().setTitle(R.string.miCuenta);
         ref= FirebaseDatabase.getInstance().getReference(getString(R.string.usuario));
         usuario= getIntent().getParcelableExtra("usuario");
@@ -136,6 +142,15 @@ public class EditarPerfilActivity extends AppCompatActivity implements View.OnCl
 
                 }
             });
+            ContentValues cv = new ContentValues();
+            cv.put("nombre", nombre.getText().toString());
+            cv.put("apellidos", apellidos.getText().toString());
+            cv.put("sexo", usuario.getSexo());
+            cv.put("puesto",usuario.getPuesto());
+            cv.put("ausente",0);
+            cv.put("password", usuario.getPassword());
+            db.insert("usuario",null,cv);
+
 
             Intent intent;
             intent= new Intent(EditarPerfilActivity.this, MenuPrincipal.class);

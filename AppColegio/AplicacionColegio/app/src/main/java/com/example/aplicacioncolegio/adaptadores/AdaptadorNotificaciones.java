@@ -62,7 +62,7 @@ public class AdaptadorNotificaciones extends RecyclerView.Adapter<AdaptadorNotif
         }
         public void representacionElementos(@NonNull EncapsuladorNotificaciones e){
             nombre.setText(e.getNombre());
-            fecha.setText(e.getNombre());
+            fecha.setText(e.getFecha());
             imagen.setImageResource(e.getImagen());
         }
     }

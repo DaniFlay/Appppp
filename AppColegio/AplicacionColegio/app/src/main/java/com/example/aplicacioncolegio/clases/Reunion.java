@@ -9,28 +9,32 @@ import androidx.annotation.NonNull;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.Objects;
 
 public class Reunion implements Serializable, Parcelable {
-    private ArrayList<Usuario> usuarios;
+    private Usuario usuario;
     private String fecha;
     private String horaInicio;
     private String Observaciones;
+    private String estado;
 
-    public Reunion(ArrayList<Usuario> usuarios, String fecha, String horaInicio, String observaciones) {
-        this.usuarios = usuarios;
+    public Reunion(Usuario usuario, String fecha, String horaInicio, String observaciones, String estado) {
+        this.usuario = usuario;
         this.fecha = fecha;
         this.horaInicio = horaInicio;
         Observaciones = observaciones;
+        this.estado = estado;
     }
 
     public Reunion() {
     }
 
     protected Reunion(Parcel in) {
-        usuarios = in.createTypedArrayList(Usuario.CREATOR);
+        usuario = in.readParcelable(Usuario.class.getClassLoader());
         fecha = in.readString();
         horaInicio = in.readString();
         Observaciones = in.readString();
+        estado = in.readString();
     }
 
     public static final Creator<Reunion> CREATOR = new Creator<Reunion>() {
@@ -45,12 +49,39 @@ public class Reunion implements Serializable, Parcelable {
         }
     };
 
-    public ArrayList<Usuario> getUsuarios() {
-        return usuarios;
+    @Override
+    public int describeContents() {
+        return 0;
     }
 
-    public void setUsuarios(ArrayList<Usuario> usuarios) {
-        this.usuarios = usuarios;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Reunion reunion = (Reunion) o;
+        return Objects.equals(usuario.getCorreo(), reunion.usuario.getCorreo()) && Objects.equals(fecha, reunion.fecha) && Objects.equals(horaInicio, reunion.horaInicio) && Objects.equals(Observaciones, reunion.Observaciones) && Objects.equals(estado, reunion.estado);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(usuario, fecha, horaInicio, Observaciones, estado);
+    }
+
+    @Override
+    public void writeToParcel(@NonNull Parcel dest, int flags) {
+        dest.writeParcelable(usuario, flags);
+        dest.writeString(fecha);
+        dest.writeString(horaInicio);
+        dest.writeString(Observaciones);
+        dest.writeString(estado);
+    }
+
+    public Usuario getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
     }
 
     public String getFecha() {
@@ -77,16 +108,11 @@ public class Reunion implements Serializable, Parcelable {
         Observaciones = observaciones;
     }
 
-    @Override
-    public int describeContents() {
-        return 0;
+    public String getEstado() {
+        return estado;
     }
 
-    @Override
-    public void writeToParcel(@NonNull Parcel dest, int flags) {
-        dest.writeTypedList(usuarios);
-        dest.writeString(fecha);
-        dest.writeString(horaInicio);
-        dest.writeString(Observaciones);
+    public void setEstado(String estado) {
+        this.estado = estado;
     }
 }

@@ -86,4 +86,14 @@ public class Permiso implements Serializable, Parcelable {
         dest.writeString(tipoPermiso);
         dest.writeString(estado);
     }
+
+    @Override
+    public String toString() {
+        return "Permiso{" +
+                "profesor=" + profesor +
+                ", razon='" + razon + '\'' +
+                ", tipoPermiso='" + tipoPermiso + '\'' +
+                ", estado='" + estado + '\'' +
+                '}';
+    }
 }

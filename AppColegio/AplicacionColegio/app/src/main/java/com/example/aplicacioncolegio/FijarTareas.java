@@ -52,7 +52,8 @@ public class FijarTareas extends AppCompatActivity implements AdapterView.OnItem
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_fijar_tareas);
-        usuarios=getIntent().getParcelableArrayListExtra("usuario");
+        usuario=getIntent().getParcelableExtra("usuario");
+        usuarios= new ArrayList<>();
         getSupportActionBar().setTitle(R.string.fijarTarea);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         spinner= findViewById(R.id.spinnerTarea);
@@ -187,14 +188,17 @@ public class FijarTareas extends AppCompatActivity implements AdapterView.OnItem
                 Notificacion notificacion= new Notificacion(usuario,usuariosAvisos.get(i),getString(R.string.tarea),spinner.getSelectedItem().toString(),date,false);
                 ref.push().setValue(notificacion);
             }
-            Tarea m= new Tarea(spinner.getSelectedItem().toString(),fecha.getText().toString());
-            ref=FirebaseDatabase.getInstance().getReference(getString(R.string.avisos));
-            ref.push().setValue(m);
+            ref=FirebaseDatabase.getInstance().getReference("Tarea Administrativa");
+
+
             Snackbar.make(v.getContext(),v,getString( R.string.sehaenviadoconexito),Snackbar.LENGTH_LONG)
                     .setAction(R.string.aceptar, new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-
+                            for(int i=0; i<usuariosAvisos.size();i++){
+                                Tarea m= new Tarea(usuariosAvisos.get(i),spinner.getSelectedItem().toString(),fecha.getText().toString(),false);
+                                ref.push().setValue(m);
+                            }
                             Intent intent= new Intent (FijarTareas.this, MenuPrincipal.class);
                             intent.putExtra("usuario",(Parcelable) usuario);
                             startActivity(intent);

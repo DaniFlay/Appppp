@@ -8,6 +8,7 @@ import android.widget.TextView;
 
 import com.example.aplicacioncolegio.clases.Clase;
 import com.example.aplicacioncolegio.clases.Usuario;
+import com.example.aplicacioncolegio.extras.ComparatorClases;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -31,16 +32,18 @@ public class Horario extends AppCompatActivity {
         for(Clase clase: clases){
             if (clase.getModulo() != null ) {
             for(int i=0; i<usuario.getModulos().size();i++) {
+                if (usuario.getModulos().get(i) != null) {
                     if (usuario.getModulos().get(i).getNombre().equals(clase.getModulo().getNombre())) {
                         clasesUsuario.add(clase);
-                        Log.d("AAAAABBBB",clasesUsuario.size()+"");
+                        Log.d("AAAAABBBB", clasesUsuario.toString() );
                         break;
                     }
                 }
             }
+            }
         }
-
-        String[]  tipos= {"Guardia","Libre","Coord.","Clase"};
+        ComparatorClases cc= new ComparatorClases();
+        clasesUsuario.sort(cc);
         L1= findViewById(R.id.L1);
         L2= findViewById(R.id.L2);
         L3= findViewById(R.id.L3);
@@ -72,9 +75,8 @@ public class Horario extends AppCompatActivity {
         V5= findViewById(R.id.V5);
         V6= findViewById(R.id.V6);
         ArrayList<TextView> views= new ArrayList<>(Arrays.asList(L1, L2, L3, L4, L5, L6, M1, M2, M3, M4, M5, M6, X1, X2, X3, X4, X5, X6, J1, J2, J3, J4, J5, J6, V1, V2, V3, V4, V5, V6));
-        Random rand = new Random();
         String tiempo="";
-        int num, counter=0;
+        int  counter=0, counter2=0;
         for(int i= 0; i<views.size();i++){
             if(counter==0){
                 tiempo= "8:00-9:00";
@@ -102,7 +104,18 @@ public class Horario extends AppCompatActivity {
             }
 
             TextView view= views.get(i);
-           // view.setText(+"\n"+tiempo);
+            if(counter2==clasesUsuario.size()){
+                counter2=0;
+            }
+            if(clasesUsuario.get(counter2).getId()-1==i){
+                view.setText(clasesUsuario.get(counter2).getModulo().getNombre()+"\n"+tiempo);
+                view.setBackgroundColor(getResources().getColor(R.color.clase));
+                counter2++;
+            }else{
+                view.setBackgroundColor(getResources().getColor(R.color.libre));
+                view.setText("Libre\n"+tiempo);
+            }
+
         }
     }
 }

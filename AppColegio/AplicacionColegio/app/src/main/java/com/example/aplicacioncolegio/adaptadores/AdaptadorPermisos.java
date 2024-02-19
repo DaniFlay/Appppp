@@ -37,7 +37,7 @@ public class AdaptadorPermisos extends RecyclerView.Adapter<AdaptadorPermisos.Vi
     @NonNull
     @Override
     public AdaptadorPermisos.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View elemento= LayoutInflater.from(parent.getContext()).inflate(R.layout.item_notificacion,parent,false);
+        View elemento= LayoutInflater.from(parent.getContext()).inflate(R.layout.item_permiso,parent,false);
         elemento.setOnClickListener(onClickListener);
         return new ViewHolder(elemento);
     }
